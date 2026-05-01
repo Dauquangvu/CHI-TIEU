@@ -1,1385 +1,1507 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Ôn Luyện Thi Báo Cáo Viên Giỏi – Trung Đoàn 1, Sư Đoàn 324</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --gold:       #B8860B;
-  --gold-bright:#D4A017;
-  --gold-light: #F5D87A;
-  --gold-pale:  #FFF3C4;
-  --red:        #C0392B;
-  --red-light:  #E74C3C;
-  --cream:      #FFFDF5;
-  --warm-white: #FFF8E8;
-  --sand:       #F5EDD5;
-  --sand-dark:  #E8D9B0;
-  --text-main:  #2C1A00;
-  --text-dark:  #1A0E00;
-  --text-mid:   #5C4020;
-  --text-muted: #8B6A30;
-  --border:     rgba(184,134,11,.22);
-  --border-strong: rgba(184,134,11,.45);
-  --shadow-sm:  0 2px 12px rgba(100,60,0,.10);
-  --shadow-md:  0 6px 30px rgba(100,60,0,.14);
-  --shadow-lg:  0 12px 48px rgba(100,60,0,.18);
-  --radius:     16px;
-  --radius-sm:  10px;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-body{
-  font-family:'Be Vietnam Pro',sans-serif;
-  background:var(--cream);
-  color:var(--text-main);
-  min-height:100vh;
-  overflow-x:hidden;
-  font-size:17px;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản Lý Chi Tiêu Cá Nhân</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f3ef;
+      --card: #ffffff;
+      --primary: #1a1a2e;
+      --accent: #e8623a;
+      --accent2: #f0a500;
+      --success: #2d9e6b;
+      --danger: #e03c3c;
+      --text: #1a1a2e;
+      --muted: #8a8a9a;
+      --border: #e8e5df;
+      --shadow: 0 4px 24px rgba(26,26,46,0.08);
+      --shadow-hover: 0 8px 32px rgba(26,26,46,0.14);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
 
-/* ── BACKGROUND PATTERN ── */
-body::before{
-  content:'';
-  position:fixed;inset:0;z-index:-1;
-  background:
-    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(212,160,23,.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 90% 100%, rgba(192,57,43,.07) 0%, transparent 60%),
-    linear-gradient(170deg, #FFFDF5 0%, #FFF8E8 40%, #FDF3DC 100%);
-  pointer-events:none;
-}
-body::after{
-  content:'';
-  position:fixed;inset:0;z-index:-1;
-  background-image:
-    radial-gradient(circle 1px at 20% 30%, rgba(184,134,11,.18) 0%, transparent 100%),
-    radial-gradient(circle 1px at 55% 12%, rgba(184,134,11,.14) 0%, transparent 100%),
-    radial-gradient(circle 1.5px at 80% 45%, rgba(184,134,11,.12) 0%, transparent 100%),
-    radial-gradient(circle 1px at 35% 80%, rgba(184,134,11,.15) 0%, transparent 100%),
-    radial-gradient(circle 1px at 70% 70%, rgba(184,134,11,.10) 0%, transparent 100%);
-  pointer-events:none;
-}
+    /* HEADER */
+    .header {
+      background: var(--primary);
+      color: #fff;
+      padding: 28px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(232,98,58,0.18);
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: 30%;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(240,165,0,0.12);
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .header-text { flex: 1; }
+    .header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .header p { color: rgba(255,255,255,0.55); font-size: 0.9rem; font-weight: 300; }
+    .month-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-/* ── HEADER ── */
-.site-header{
-  position:sticky;top:0;z-index:200;
-  background:linear-gradient(135deg, #8B1A1A 0%, #C0392B 40%, #A31515 100%);
-  border-bottom:3px solid var(--gold-bright);
-  box-shadow:0 4px 24px rgba(140,20,20,.35), 0 1px 0 rgba(245,216,122,.4) inset;
-}
-.header-inner{
-  display:flex;align-items:center;justify-content:center;
-  gap:16px;padding:16px 20px 10px;
-  max-width:900px;margin:0 auto;
-}
-.star-wrap{
-  display:flex;flex-direction:column;gap:4px;align-items:center;
-}
-.star-emblem{
-  font-size:32px;line-height:1;
-  filter:drop-shadow(0 0 10px rgba(245,216,122,.9));
-  animation:starPulse 3s ease-in-out infinite;
-}
-@keyframes starPulse{
-  0%,100%{filter:drop-shadow(0 0 10px rgba(245,216,122,.9));}
-  50%{filter:drop-shadow(0 0 22px rgba(245,216,122,1)) drop-shadow(0 0 40px rgba(245,216,122,.5));}
-}
-.header-titles{text-align:center;flex:1;}
-.header-greeting{
-  font-size:clamp(13px,2.4vw,17px);
-  color:#FFE566;
-  letter-spacing:2.5px;text-transform:uppercase;
-  font-weight:800;margin-bottom:7px;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  text-shadow:0 0 18px rgba(255,215,0,.85), 0 2px 8px rgba(0,0,0,.4);
-  animation:greetingGlow 2.5s ease-in-out infinite;
-  position:relative;
-}
-@keyframes greetingGlow{
-  0%,100%{
-    text-shadow:0 0 12px rgba(255,215,0,.7), 0 2px 8px rgba(0,0,0,.4);
-    color:#FFE566;
-  }
-  50%{
-    text-shadow:0 0 28px rgba(255,215,0,1), 0 0 50px rgba(255,180,0,.6), 0 2px 8px rgba(0,0,0,.4);
-    color:#FFF5A0;
-  }
-}
-.header-greeting .greet-star{
-  font-size:18px;
-  animation:spinStar 4s linear infinite;
-  display:inline-block;
-  filter:drop-shadow(0 0 8px rgba(255,215,0,.9));
-}
-@keyframes spinStar{
-  0%{transform:rotate(0deg) scale(1);}
-  50%{transform:rotate(180deg) scale(1.2);}
-  100%{transform:rotate(360deg) scale(1);}
-}
-.header-greeting span{opacity:.85;font-size:14px;}
-.main-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(15px,2.8vw,22px);
-  font-weight:700;
-  color:#FFF8E8;
-  text-shadow:0 2px 10px rgba(0,0,0,.4);
-  line-height:1.3;margin-bottom:4px;
-  letter-spacing:.5px;
-}
-.sub-title{
-  font-size:clamp(12px,1.8vw,14px);
-  color:rgba(245,216,122,.75);
-  font-weight:500;letter-spacing:.5px;
-}
-.header-bottom{
-  background:rgba(0,0,0,.25);
-  padding:8px 20px;
-  display:flex;align-items:center;justify-content:center;gap:24px;
-  border-top:1px solid rgba(245,216,122,.2);
-}
-.unit-badge{
-  display:flex;align-items:center;gap:8px;
-  font-size:13px;color:var(--gold-light);font-weight:700;
-  letter-spacing:1.5px;text-transform:uppercase;
-}
-.unit-badge::before{content:"⚔";font-size:16px;opacity:.85;}
+    /* EXPORT BTN in header */
+    .btn-export-header {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.28);
+      border-radius: var(--radius-sm);
+      padding: 9px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+      white-space: nowrap;
+      align-self: center;
+      margin-top: 22px;
+    }
+    .btn-export-header:hover { background: rgba(255,255,255,0.22); }
 
-/* ── NAV TABS ── */
-.nav-tabs{
-  display:flex;justify-content:center;
-  background:var(--warm-white);
-  border-bottom:2px solid var(--sand-dark);
-  padding:0;
-  box-shadow:0 2px 10px rgba(100,60,0,.07);
-  position:sticky;top:calc(var(--header-h, 100px));z-index:100;
-}
-.nav-tab{
-  padding:15px 0;
-  cursor:pointer;
-  font-family:'Be Vietnam Pro',sans-serif;
-  font-size:15px;letter-spacing:1px;font-weight:700;
-  color:var(--text-muted);
-  border:none;background:none;
-  position:relative;
-  transition:color .25s;
-  flex:1;max-width:200px;
-  text-align:center;
-}
-.nav-tab::after{
-  content:'';position:absolute;bottom:-2px;left:10%;right:10%;height:3px;
-  background:linear-gradient(90deg,var(--gold),var(--gold-bright));
-  border-radius:2px 2px 0 0;
-  transform:scaleX(0);transition:transform .3s cubic-bezier(.34,1.56,.64,1);
-}
-.nav-tab.active{color:var(--gold);}
-.nav-tab.active::after{transform:scaleX(1);}
-.nav-tab:hover:not(.active){color:var(--text-mid);}
+    /* CONTAINER */
+    .container {
+      max-width: 960px;
+      margin: -36px auto 0;
+      padding: 0 16px;
+      position: relative;
+      z-index: 2;
+    }
 
-/* ── PRACTICE SELECTOR ── */
-.part-selector{
-  display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;
-}
-.part-btn{
-  flex:1;min-width:130px;
-  padding:16px 12px;
-  border-radius:var(--radius-sm);
-  border:2px solid var(--border-strong);
-  background:var(--warm-white);
-  color:var(--text-mid);
-  font-size:15px;font-weight:700;
-  cursor:pointer;
-  transition:all .25s cubic-bezier(.34,1.56,.64,1);
-  text-align:center;
-  position:relative;overflow:hidden;
-  box-shadow:var(--shadow-sm);
-}
-.part-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,var(--gold-pale),transparent);
-  opacity:0;transition:opacity .25s;
-}
-.part-btn:hover::before,.part-btn.active::before{opacity:1;}
-.part-btn.active{
-  border-color:var(--gold-bright);
-  color:var(--gold);
-  box-shadow:0 0 0 3px rgba(212,160,23,.18), var(--shadow-md);
-  transform:translateY(-2px);
-}
-.part-btn .part-icon{font-size:22px;display:block;margin-bottom:6px;}
-.part-btn .part-label{font-size:13px;font-weight:600;letter-spacing:.5px;}
-.part-btn .part-count{
-  font-size:12px;color:var(--text-muted);margin-top:2px;
-  font-weight:500;
-}
+    /* STAT CARDS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stats-grid .stat-card:last-child { grid-column: span 2; }
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s;
+    }
+    .stat-card:hover { box-shadow: var(--shadow-hover); }
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: var(--text);
+      line-height: 1.1;
+    }
+    .stat-unit { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+    .stat-card.primary-card { background: var(--primary); border-color: var(--primary); }
+    .stat-card.primary-card .stat-label { color: rgba(255,255,255,0.5); }
+    .stat-card.primary-card .stat-value { color: #fff; }
+    .stat-card.primary-card .stat-unit { color: rgba(255,255,255,0.4); }
+    .stat-card.danger-card .stat-value { color: var(--danger); }
+    .stat-card.success-card .stat-value { color: var(--success); }
 
-/* ── MAIN CONTENT ── */
-.main-content{
-  max-width:860px;margin:0 auto;
-  padding:28px 16px 80px;
-}
-.section-view{display:none;}
-.section-view.active{display:block;}
+    /* CARD */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title span.icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
 
-/* ── PRACTICE HEADER ── */
-.practice-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:24px;flex-wrap:wrap;gap:10px;
-}
-.section-label{
-  font-family:'Playfair Display',serif;
-  font-size:20px;color:var(--gold);
-  display:flex;align-items:center;gap:8px;
-  font-weight:700;
-}
-.section-label::before{content:'📖';}
-.q-count-badge{
-  background:linear-gradient(135deg,var(--gold-pale),var(--sand));
-  border:1.5px solid var(--border-strong);
-  color:var(--gold);
-  padding:6px 18px;border-radius:50px;
-  font-size:14px;font-weight:700;
-  box-shadow:var(--shadow-sm);
-}
-.progress-label{
-  font-size:13px;color:var(--text-muted);font-weight:600;
-  padding:6px 14px;
-  background:var(--sand);
-  border-radius:50px;
-  border:1px solid var(--border);
-}
+    /* FUND GRID */
+    .fund-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+    @media (max-width: 600px) {
+      .fund-grid { grid-template-columns: 1fr 1fr; }
+      .fund-grid .btn-update { grid-column: span 2; }
+    }
 
-/* ── QUESTION CARD ── */
-.q-card{
-  background:#FFFFFF;
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  padding:26px 24px;
-  margin-bottom:18px;
-  position:relative;
-  overflow:hidden;
-  transition:border-color .3s, box-shadow .3s, transform .25s;
-  box-shadow:var(--shadow-sm);
-  animation:cardIn .35s cubic-bezier(.22,.68,0,1.2) both;
-}
-@keyframes cardIn{
-  from{opacity:0;transform:translateY(20px) scale(.98);}
-  to{opacity:1;transform:translateY(0) scale(1);}
-}
-.q-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,var(--red),var(--gold-bright),var(--red));
-  opacity:0;transition:opacity .35s;
-}
-.q-card.answered::before{opacity:1;}
-.q-card.answered{
-  border-color:var(--border-strong);
-  box-shadow:0 4px 20px rgba(184,134,11,.12);
-}
+    /* COLLAPSIBLE SECTION */
+    .collapsible-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      padding: 8px 0;
+    }
+    .collapsible-header:hover .collapse-toggle { color: var(--accent); }
+    .collapse-toggle {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .collapse-arrow {
+      display: inline-block;
+      transition: transform 0.25s;
+      font-size: 0.7rem;
+    }
+    .collapse-arrow.open { transform: rotate(180deg); }
+    .collapsible-body {
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.25s;
+      max-height: 800px;
+      opacity: 1;
+    }
+    .collapsible-body.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
 
-/* card stagger delays */
-.q-card:nth-child(1){animation-delay:.00s;}
-.q-card:nth-child(2){animation-delay:.06s;}
-.q-card:nth-child(3){animation-delay:.12s;}
-.q-card:nth-child(4){animation-delay:.18s;}
-.q-card:nth-child(5){animation-delay:.24s;}
-.q-card:nth-child(n+6){animation-delay:.30s;}
+    /* FUND ADD ENTRIES */
+    .fund-adds { margin-top: 14px; }
+    .fund-add-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+      font-size: 0.82rem;
+    }
+    .fund-add-row .add-date { color: var(--muted); min-width: 70px; }
+    .fund-add-row .add-amount { font-weight: 700; color: var(--success); margin-left: auto; }
+    .fund-add-row .add-note { color: var(--text); flex: 1; }
 
-.q-header{
-  display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;
-}
-.q-number{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--red),#8B1A1A);
-  color:#FFF8E8;font-weight:800;font-size:15px;
-  box-shadow:0 2px 8px rgba(192,57,43,.35);
-}
-.q-text{
-  font-size:17px;font-weight:700;line-height:1.65;
-  color:var(--text-dark);flex:1;
-}
+    /* FIELD */
+    .field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--bg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .field input:focus, .field select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(232,98,58,0.1);
+    }
+    /* Locked input style */
+    .field input.locked {
+      background: #f7f5f0;
+      color: var(--muted);
+      cursor: not-allowed;
+      border-style: dashed;
+    }
+    .field input.locked:focus {
+      border-color: var(--border);
+      box-shadow: none;
+    }
+    .input-suffix {
+      position: relative;
+    }
+    .input-suffix input { padding-right: 50px; }
+    .input-suffix .suffix {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+      pointer-events: none;
+    }
+    /* Unlock button inside input group */
+    .unlock-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .btn-unlock {
+      background: #fff8f0;
+      color: var(--accent);
+      border: 1.5px solid #f5d4c3;
+      border-radius: 7px;
+      padding: 5px 13px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-unlock:hover { background: #fde8db; }
+    .btn-lock {
+      background: #f0faf5;
+      color: var(--success);
+      border: 1.5px solid #c5e8d8;
+      border-radius: 7px;
+      padding: 5px 13px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-lock:hover { background: #d4f0e5; }
 
-.opts-grid{display:flex;flex-direction:column;gap:10px;}
-.opt-btn{
-  display:flex;align-items:flex-start;gap:14px;
-  padding:15px 18px;
-  border-radius:var(--radius-sm);
-  border:2px solid var(--border);
-  background:var(--warm-white);
-  cursor:pointer;
-  text-align:left;
-  font-size:16px;font-weight:500;
-  color:var(--text-main);
-  transition:all .2s cubic-bezier(.34,1.56,.64,1);
-  width:100%;line-height:1.55;
-  position:relative;overflow:hidden;
-}
-.opt-btn::after{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(212,160,23,.07),transparent);
-  opacity:0;transition:opacity .2s;
-}
-.opt-btn:hover:not(:disabled)::after{opacity:1;}
-.opt-btn:hover:not(:disabled){
-  border-color:var(--gold-bright);
-  background:var(--gold-pale);
-  transform:translateX(5px) scale(1.007);
-  box-shadow:0 4px 16px rgba(184,134,11,.14);
-}
-.opt-label{
-  flex-shrink:0;
-  width:32px;height:32px;
-  border-radius:50%;
-  background:linear-gradient(135deg,var(--sand),var(--sand-dark));
-  border:2px solid var(--border-strong);
-  color:var(--gold);font-weight:800;font-size:14px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s;
-}
-.opt-text{flex:1;padding-top:4px;}
-.opt-btn:disabled{cursor:default;transform:none !important;}
+    /* BUTTONS */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #d14f28; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(232,98,58,0.35); }
+    .btn-secondary { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-add {
+      background: var(--primary);
+      color: #fff;
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      margin-top: 8px;
+    }
+    .btn-add:hover { background: #2d2d4e; transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-delete {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.15s;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .btn-delete:hover { background: #ffe5e5; color: var(--danger); }
+    .btn-update { align-self: flex-end; padding: 11px 22px; }
 
-/* Answer states */
-.opt-btn.correct{
-  border-color:#16A34A !important;
-  background:linear-gradient(135deg,rgba(22,163,74,.08),rgba(22,163,74,.04)) !important;
-  color:#14532D !important;
-  animation:correctPop .4s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes correctPop{
-  0%{transform:scale(1);}
-  40%{transform:scale(1.025);}
-  100%{transform:scale(1);}
-}
-.opt-btn.correct .opt-label{
-  background:#16A34A;border-color:#16A34A;color:#fff;
-  box-shadow:0 0 12px rgba(22,163,74,.5);
-}
-.opt-btn.wrong{
-  border-color:#DC2626 !important;
-  background:linear-gradient(135deg,rgba(220,38,38,.07),rgba(220,38,38,.03)) !important;
-  color:#7F1D1D !important;
-  animation:wrongShake .3s ease;
-}
-@keyframes wrongShake{
-  0%,100%{transform:translateX(0);}
-  20%{transform:translateX(-6px);}
-  40%{transform:translateX(6px);}
-  60%{transform:translateX(-4px);}
-  80%{transform:translateX(4px);}
-}
-.opt-btn.wrong .opt-label{
-  background:#DC2626;border-color:#DC2626;color:#fff;
-}
-.opt-btn.show-correct{
-  border-color:#16A34A !important;
-  background:linear-gradient(135deg,rgba(22,163,74,.06),rgba(22,163,74,.02)) !important;
-}
-.opt-btn.show-correct .opt-label{
-  background:#16A34A;border-color:#16A34A;color:#fff;
-}
+    /* TABLE */
+    .table-wrapper { overflow-x: auto; margin: 0 -4px; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.875rem; }
+    thead th {
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+    }
+    thead th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+    thead th:last-child { border-radius: 0 var(--radius-sm) 0 0; text-align: center; }
+    tbody tr { transition: background 0.15s; }
+    tbody tr:hover td { background: #faf9f7; }
+    tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      background: #fff;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    td.stt { color: var(--muted); font-weight: 600; font-size: 0.75rem; width: 36px; text-align: center; }
+    td input {
+      width: 100%;
+      border: 1.5px solid transparent;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      color: var(--text);
+      padding: 4px 6px;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    td input:focus { border-color: var(--accent); background: #fff8f5; }
+    td input[type="number"] { text-align: right; }
+    td input[type="date"] { cursor: pointer; }
+    /* Locked cell inputs */
+    td input.cell-locked {
+      pointer-events: none;
+      color: var(--muted);
+      background: transparent;
+    }
+    .col-remaining { font-weight: 700; font-size: 0.9rem; text-align: right; padding-right: 14px; min-width: 120px; white-space: nowrap; }
+    .col-amount { min-width: 120px; }
+    .col-content { min-width: 140px; }
+    .col-date { min-width: 110px; }
+    .col-action { text-align: center; width: 46px; }
 
-/* Answer note */
-.answer-note{
-  display:none;
-  margin-top:14px;padding:12px 18px;
-  border-radius:var(--radius-sm);
-  background:linear-gradient(135deg,rgba(22,163,74,.08),rgba(22,163,74,.04));
-  border:1.5px solid rgba(22,163,74,.3);
-  color:#14532D;font-size:15px;font-weight:600;
-  gap:8px;align-items:center;
-}
-.answer-note.wrong-note{
-  background:linear-gradient(135deg,rgba(220,38,38,.08),rgba(220,38,38,.04));
-  border-color:rgba(220,38,38,.3);color:#7F1D1D;
-}
-.answer-note.show{
-  display:flex;
-  animation:noteSlide .35s cubic-bezier(.22,.68,0,1.2) both;
-}
-@keyframes noteSlide{
-  from{opacity:0;transform:translateY(-8px);}
-  to{opacity:1;transform:translateY(0);}
-}
+    tr.negative td { background: #fff3f3 !important; }
+    tr.negative .col-remaining { color: var(--danger); }
+    tr.positive .col-remaining { color: var(--success); }
 
-/* Auto-advance overlay */
-.advance-overlay{
-  position:absolute;inset:0;z-index:10;
-  background:rgba(255,253,245,.0);
-  pointer-events:none;
-}
-.advance-bar{
-  position:absolute;bottom:0;left:0;height:4px;
-  background:linear-gradient(90deg,var(--gold-bright),var(--gold));
-  border-radius:0 0 var(--radius) var(--radius);
-  width:0;
-  transition:width 1.3s linear;
-}
-.advance-bar.go{width:100%;}
+    /* WEEK GROUP */
+    tr.week-header td {
+      background: var(--primary) !important;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 7px 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+    tr.week-header:hover td { background: #2d2d4e !important; }
+    tr.week-header td .week-toggle {
+      float: right;
+      font-size: 0.9rem;
+      transition: transform 0.25s;
+    }
+    tr.week-header.collapsed td .week-toggle { transform: rotate(-90deg); }
+    tr.week-data.hidden { display: none; }
 
-/* ── EXAM PANEL ── */
-.exam-start-screen{
-  text-align:center;
-  padding:56px 36px;
-  background:#FFFFFF;
-  border:2px solid var(--border-strong);
-  border-radius:20px;
-  box-shadow:var(--shadow-md);
-}
-.exam-icon{font-size:64px;margin-bottom:18px;display:block;animation:floatIcon 3s ease-in-out infinite;}
-@keyframes floatIcon{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-.exam-start-title{
-  font-family:'Playfair Display',serif;
-  font-size:28px;font-weight:700;
-  color:var(--text-dark);margin-bottom:10px;
-}
-.exam-rules{
-  max-width:460px;margin:24px auto;text-align:left;
-  display:flex;flex-direction:column;gap:10px;
-}
-.exam-rule{
-  display:flex;align-items:flex-start;gap:12px;
-  background:var(--warm-white);
-  padding:12px 16px;border-radius:var(--radius-sm);
-  border-left:4px solid var(--gold-bright);
-  font-size:15px;color:var(--text-mid);
-  box-shadow:var(--shadow-sm);
-}
-.rule-icon{font-size:20px;flex-shrink:0;}
+    /* EMPTY */
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .empty-state p { font-size: 0.85rem; }
 
-.btn-start-exam{
-  margin-top:28px;
-  padding:18px 56px;
-  background:linear-gradient(135deg,var(--red),#8B1A1A);
-  border:2.5px solid var(--gold-bright);
-  color:var(--gold-light);
-  font-family:'Be Vietnam Pro',sans-serif;
-  font-size:17px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
-  border-radius:50px;cursor:pointer;
-  box-shadow:0 6px 24px rgba(192,57,43,.4), 0 2px 0 rgba(245,216,122,.3) inset;
-  transition:all .3s cubic-bezier(.34,1.56,.64,1);
-}
-.btn-start-exam:hover{
-  transform:translateY(-4px) scale(1.03);
-  box-shadow:0 12px 36px rgba(192,57,43,.5), 0 2px 0 rgba(245,216,122,.4) inset;
-}
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-hover);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+      z-index: 9999;
+      pointer-events: none;
+      max-width: 300px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: var(--success); }
+    .toast.warning { background: var(--accent2); }
+    .toast.error { background: var(--danger); }
 
-/* Exam bar */
-.exam-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  background:#FFFFFF;
-  border:2px solid var(--border-strong);
-  border-radius:var(--radius-sm);padding:14px 20px;
-  margin-bottom:20px;flex-wrap:wrap;gap:10px;
-  box-shadow:var(--shadow-sm);
-}
-.exam-bar-item{display:flex;align-items:center;gap:8px;font-size:15px;}
-.exam-bar-item .label{color:var(--text-muted);font-size:13px;font-weight:600;}
-.exam-bar-item .value{
-  font-family:'Playfair Display',serif;
-  font-size:22px;font-weight:700;color:var(--gold);
-}
-.exam-bar-item .value.danger{color:var(--red);animation:blink .8s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      width: min(360px, 90vw);
+      box-shadow: var(--shadow-hover);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+    .modal h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .modal p { font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; }
+    .modal input[type="password"], .modal input[type="text"] {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .modal input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232,98,58,0.1); }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .modal .err { color: var(--danger); font-size: 0.8rem; margin-top: -10px; margin-bottom: 10px; display: none; }
+    .modal .err.show { display: block; }
 
-.progress-bar-wrap{
-  height:7px;background:var(--sand);
-  border-radius:4px;overflow:hidden;margin-bottom:20px;
-  border:1px solid var(--border);
-}
-.progress-bar-fill{
-  height:100%;
-  background:linear-gradient(90deg,var(--red),var(--gold-bright));
-  border-radius:4px;transition:width .4s ease;
-}
+    /* EXPORT MODAL */
+    .export-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
+    .export-opt-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: all 0.15s;
+      text-align: left;
+    }
+    .export-opt-btn:hover { border-color: var(--accent); background: #fff8f5; color: var(--accent); }
+    .export-opt-btn .opt-icon { font-size: 1.4rem; }
+    .export-opt-btn .opt-desc { font-size: 0.75rem; font-weight: 400; color: var(--muted); display: block; margin-top: 2px; }
 
-/* Q dots */
-.q-overview{
-  display:flex;flex-wrap:wrap;gap:6px;
-  background:var(--warm-white);
-  padding:14px;border-radius:var(--radius-sm);
-  margin-bottom:18px;
-  border:1.5px solid var(--border);
-  box-shadow:var(--shadow-sm);
-}
-.q-dot{
-  width:34px;height:34px;border-radius:7px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;cursor:pointer;
-  border:2px solid var(--border);
-  background:var(--warm-white);
-  color:var(--text-muted);
-  transition:all .2s cubic-bezier(.34,1.56,.64,1);
-}
-.q-dot:hover{
-  border-color:var(--gold-bright);
-  color:var(--gold);
-  transform:scale(1.12);
-}
-.q-dot.answered{
-  background:rgba(22,163,74,.12);
-  border-color:#16A34A;color:#14532D;
-}
-.q-dot.current{
-  border-color:var(--gold-bright);
-  background:var(--gold-pale);
-  color:var(--gold);
-  box-shadow:0 0 0 3px rgba(212,160,23,.2);
-  transform:scale(1.08);
-}
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-/* Exam nav */
-.exam-nav{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:20px;gap:10px;flex-wrap:wrap;
-}
-.btn-nav{
-  padding:12px 26px;border-radius:var(--radius-sm);
-  font-size:15px;font-weight:700;cursor:pointer;
-  border:2px solid var(--border-strong);
-  background:var(--warm-white);
-  color:var(--gold);transition:all .2s;
-  box-shadow:var(--shadow-sm);
-}
-.btn-nav:hover{
-  background:var(--gold-pale);
-  border-color:var(--gold-bright);
-  transform:translateY(-2px);
-  box-shadow:var(--shadow-md);
-}
-.btn-nav:disabled{opacity:.3;cursor:default;transform:none;box-shadow:none;}
-.btn-submit-exam{
-  padding:14px 34px;border-radius:var(--radius-sm);
-  font-size:15px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
-  cursor:pointer;
-  background:linear-gradient(135deg,var(--red),#8B1A1A);
-  color:var(--gold-light);border:2px solid var(--gold-bright);
-  transition:all .3s;
-  box-shadow:0 4px 16px rgba(192,57,43,.35);
-}
-.btn-submit-exam:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 24px rgba(192,57,43,.5);
-}
+    .divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+    .note { font-size: 0.75rem; color: var(--muted); margin-top: 8px; }
+    .accent-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 6px; }
 
-/* ── RESULT SCREEN ── */
-.result-screen{
-  text-align:center;
-  padding:48px 32px;
-  background:#FFFFFF;
-  border-radius:20px;
-  border:2px solid var(--border-strong);
-  box-shadow:var(--shadow-lg);
-  animation:cardIn .5s cubic-bezier(.22,.68,0,1.2) both;
-}
-.result-score-ring{
-  width:170px;height:170px;
-  margin:0 auto 28px;
-  border-radius:50%;
-  background:conic-gradient(var(--gold-bright) var(--pct,0deg), var(--sand) 0deg);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;
-  box-shadow:0 0 40px rgba(212,160,23,.25), var(--shadow-md);
-}
-.result-score-inner{
-  width:126px;height:126px;border-radius:50%;
-  background:linear-gradient(145deg,#FFFDF5,#FFF8E8);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  position:relative;z-index:1;
-  border:2px solid var(--border);
-}
-.result-score-num{
-  font-family:'Playfair Display',serif;
-  font-size:50px;font-weight:800;
-  color:var(--gold);line-height:1;
-}
-.result-score-denom{
-  font-size:15px;color:var(--text-muted);font-weight:600;
-}
-.result-title{
-  font-family:'Playfair Display',serif;
-  font-size:28px;color:var(--text-dark);
-  margin-bottom:10px;letter-spacing:1px;font-weight:700;
-}
-.result-msg{
-  font-size:16px;line-height:1.75;
-  color:var(--text-mid);
-  max-width:480px;margin:0 auto 28px;
-}
-.result-badges{
-  display:flex;justify-content:center;gap:14px;flex-wrap:wrap;
-  margin-bottom:32px;
-}
-.result-badge{
-  padding:10px 22px;border-radius:50px;
-  font-size:14px;font-weight:700;
-  display:flex;align-items:center;gap:6px;
-}
-.badge-correct{background:rgba(22,163,74,.1);border:2px solid rgba(22,163,74,.4);color:#14532D;}
-.badge-wrong{background:rgba(220,38,38,.1);border:2px solid rgba(220,38,38,.35);color:#7F1D1D;}
-.badge-skip{background:var(--sand);border:2px solid var(--border-strong);color:var(--text-muted);}
+    /* CHIP: ngày thêm tiền */
+    .add-entries-list { margin-top: 14px; }
+    .add-entry-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px;
+      background: #f0faf5;
+      border: 1px solid #c5e8d8;
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+      font-size: 0.82rem;
+    }
+    .add-entry-date { color: var(--muted); font-size: 0.75rem; min-width: 72px; }
+    .add-entry-note { flex: 1; color: var(--text); }
+    .add-entry-amt { font-weight: 700; color: var(--success); white-space: nowrap; }
+    .add-entry-del { background: none; border: none; color: var(--muted); cursor: pointer; padding: 3px 5px; border-radius: 5px; font-size: 0.85rem; }
+    .add-entry-del:hover { background: #ffe5e5; color: var(--danger); }
 
-.btn-review,.btn-retry{
-  padding:14px 36px;border-radius:var(--radius-sm);
-  font-size:15px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
-  cursor:pointer;margin:4px;transition:all .25s;
-}
-.btn-review{
-  border:2px solid var(--border-strong);
-  background:var(--warm-white);color:var(--gold);
-  box-shadow:var(--shadow-sm);
-}
-.btn-review:hover{background:var(--gold-pale);border-color:var(--gold-bright);transform:translateY(-2px);}
-.btn-retry{
-  background:linear-gradient(135deg,var(--red),#8B1A1A);
-  color:var(--gold-light);border:2px solid var(--gold-bright);
-  box-shadow:0 4px 16px rgba(192,57,43,.35);
-}
-.btn-retry:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(192,57,43,.5);}
+    /* AMOUNT HINT */
+    .amount-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
 
-/* Review panel */
-.review-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:24px;flex-wrap:wrap;gap:10px;
-}
-.review-title{
-  font-family:'Playfair Display',serif;
-  font-size:22px;color:var(--text-dark);font-weight:700;
-}
-.btn-back-result{
-  padding:10px 20px;border-radius:var(--radius-sm);
-  font-size:14px;font-weight:700;cursor:pointer;
-  border:2px solid var(--border-strong);
-  background:var(--warm-white);color:var(--gold);
-  transition:all .2s;box-shadow:var(--shadow-sm);
-}
-.btn-back-result:hover{background:var(--gold-pale);transform:translateY(-1px);}
+    /* LOCK badge */
+    .lock-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.72rem;
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffe08a;
+      border-radius: 20px;
+      padding: 2px 9px;
+      margin-left: 8px;
+      font-weight: 600;
+    }
 
-.review-q-card{
-  background:#FFFFFF;
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);padding:22px;margin-bottom:14px;
-  position:relative;overflow:hidden;
-  box-shadow:var(--shadow-sm);
-}
-.review-q-card::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:5px;
-  border-radius:0;
-}
-.review-q-card.is-correct::before{background:#16A34A;}
-.review-q-card.is-wrong::before{background:#DC2626;}
-.review-q-card.is-skip::before{background:var(--sand-dark);}
-.review-result-tag{
-  font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;
-  padding:4px 14px;border-radius:20px;
-  float:right;margin-left:12px;
-}
-.tag-correct{background:rgba(22,163,74,.12);color:#14532D;}
-.tag-wrong{background:rgba(220,38,38,.12);color:#7F1D1D;}
-.tag-skip{background:var(--sand);color:var(--text-muted);}
+    /* Section lock status indicator */
+    .section-lock-status {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-left: auto;
+    }
+    .section-lock-status.locked {
+      background: #fff3cd; color: #856404; border: 1px solid #ffe08a;
+    }
+    .section-lock-status.unlocked {
+      background: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+    }
 
-/* Exam selected answer */
-.opt-btn.exam-selected{
-  border-color:var(--gold-bright) !important;
-  background:var(--gold-pale) !important;
-}
-.opt-btn.exam-selected .opt-label{
-  background:var(--gold-bright) !important;
-  border-color:var(--gold-bright) !important;
-  color:#fff !important;
-}
-
-/* Gold divider */
-.gold-divider{
-  height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold-bright),transparent);
-  margin:28px 0;opacity:.35;
-  border-radius:2px;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:7px;}
-::-webkit-scrollbar-track{background:var(--sand);}
-::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px;}
-::-webkit-scrollbar-thumb:hover{background:var(--gold-bright);}
-
-/* Back to top */
-.back-to-top{
-  position:fixed;bottom:22px;right:18px;
-  width:48px;height:48px;border-radius:50%;
-  background:linear-gradient(135deg,var(--red),#8B1A1A);
-  border:2px solid var(--gold-bright);
-  color:var(--gold-light);font-size:20px;font-weight:800;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;z-index:999;
-  box-shadow:0 4px 20px rgba(192,57,43,.45);
-  opacity:0;pointer-events:none;
-  transition:opacity .3s, transform .3s;
-}
-.back-to-top.show{opacity:1;pointer-events:all;}
-.back-to-top:hover{transform:translateY(-4px);}
-
-/* ── MOBILE ── */
-@media(max-width:640px){
-  body{font-size:16px;}
-  .header-inner{gap:10px;padding:12px 14px 8px;}
-  .star-emblem{font-size:26px;}
-  .main-title{font-size:15px;}
-  .main-content{padding:18px 12px 72px;}
-  .q-card{padding:18px 14px;}
-  .q-text{font-size:16px;}
-  .opt-btn{font-size:15px;padding:13px 14px;}
-  .opt-label{width:28px;height:28px;font-size:13px;}
-  .exam-bar{flex-direction:column;align-items:flex-start;gap:8px;}
-  .exam-bar-item .value{font-size:19px;}
-  .q-dot{width:28px;height:28px;font-size:11px;}
-  .q-overview{gap:5px;padding:10px;}
-  .btn-review,.btn-retry{padding:12px 22px;font-size:14px;}
-  .exam-start-screen{padding:32px 16px;}
-  .result-screen{padding:36px 16px;}
-  .part-btn{font-size:14px;padding:14px 10px;}
-  .nav-tab{font-size:14px;padding:13px 0;}
-  .btn-nav{padding:11px 18px;font-size:14px;}
-}
-@media(max-width:380px){
-  .q-text{font-size:15px;}
-  .opt-btn{font-size:14px;gap:10px;}
-  .q-dot{width:25px;height:25px;font-size:10px;}
-}
-</style>
+    /* Table unlock bar */
+    .table-unlock-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff8f0;
+      border: 1px solid #f5d4c3;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .table-unlock-bar.unlocked-bar {
+      background: #f0faf5;
+      border-color: #c5e8d8;
+      color: #2d9e6b;
+    }
+  </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<header class="site-header">
+<div class="header">
   <div class="header-inner">
-    <div class="star-wrap">
-      <div class="star-emblem">⭐</div>
+    <div class="header-text">
+      <div class="month-badge" id="monthBadge">Tháng 5 · 2025</div>
+      <h1>💳 Quản Lý Chi Tiêu</h1>
+      <p>Theo dõi tài chính cá nhân — đơn vị: nghìn đồng (000 đ)</p>
     </div>
-    <div class="header-titles">
-      <div class="header-greeting">
-        <span class="greet-star">★</span> Nhiệt Liệt Chào Mừng Chính Ủy Đến Với Trang Ôn Luyện <span class="greet-star">★</span>
-      </div>
-      <div class="main-title">ÔN LUYỆN THI BÁO CÁO VIÊN GIỎI CẤP QUÂN KHU NĂM 2026</div>
-      <div class="sub-title">QUÂN ĐỘI NHÂN DÂN VIỆT NAM</div>
-    </div>
-    <div class="star-wrap">
-      <div class="star-emblem">⭐</div>
-    </div>
-  </div>
-  <div class="header-bottom">
-    <div class="unit-badge">Trung Đoàn 1 – Sư Đoàn 324</div>
-  </div>
-</header>
-
-<!-- NAV -->
-<nav class="nav-tabs">
-  <button class="nav-tab active" onclick="switchTab('practice')">📚 Ôn Luyện</button>
-  <button class="nav-tab" onclick="switchTab('exam')">🎯 Thi Thật</button>
-</nav>
-
-<!-- MAIN -->
-<div class="main-content">
-
-  <!-- PRACTICE -->
-  <div id="practiceSection" class="section-view active">
-    <div class="practice-header">
-      <div class="section-label">Ôn Luyện Câu Hỏi</div>
-      <div class="q-count-badge" id="practiceCount">75 câu</div>
-    </div>
-
-    <!-- Part selector -->
-    <div class="part-selector">
-      <button class="part-btn active" id="partBtn1" onclick="selectPart(1)">
-        <span class="part-icon">📘</span>
-        <span class="part-label">PHẦN 1</span>
-        <span class="part-count">Câu 1 – 40</span>
-      </button>
-      <button class="part-btn" id="partBtn2" onclick="selectPart(2)">
-        <span class="part-icon">📗</span>
-        <span class="part-label">PHẦN 2</span>
-        <span class="part-count">Câu 41 – 75</span>
-      </button>
-    </div>
-
-    <div class="gold-divider"></div>
-    <div id="practiceList"></div>
-  </div>
-
-  <!-- EXAM -->
-  <div id="examSection" class="section-view">
-
-    <!-- Start screen -->
-    <div id="examStart">
-      <div class="exam-start-screen">
-        <span class="exam-icon">🎖️</span>
-        <div class="exam-start-title">BÀI THI NHẬN THỨC</div>
-        <p style="color:var(--text-muted);font-size:15px;margin-bottom:6px;">Hội Thi Báo Cáo Viên Giỏi Cấp Quân Khu Năm 2026</p>
-        <div class="exam-rules">
-          <div class="exam-rule"><span class="rule-icon">📝</span><span><b>50 câu hỏi</b> ngẫu nhiên từ ngân hàng đề</span></div>
-          <div class="exam-rule"><span class="rule-icon">⏱️</span><span>Thời gian làm bài: <b>45 phút</b></span></div>
-          <div class="exam-rule"><span class="rule-icon">🔀</span><span>Câu hỏi và đáp án được xáo trộn ngẫu nhiên mỗi lần thi</span></div>
-          <div class="exam-rule"><span class="rule-icon">✅</span><span>Chỉ được chọn <b>một đáp án</b> cho mỗi câu</span></div>
-          <div class="exam-rule"><span class="rule-icon">📊</span><span>Kết quả hiển thị ngay sau khi nộp bài</span></div>
-        </div>
-        <button class="btn-start-exam" onclick="startExam()">🚀 Bắt Đầu Thi</button>
-      </div>
-    </div>
-
-    <!-- Exam doing -->
-    <div id="examDoing" style="display:none;">
-      <div class="exam-bar">
-        <div class="exam-bar-item">
-          <span class="label">Câu</span>
-          <span class="value" id="examCurrentQ">1/50</span>
-        </div>
-        <div class="exam-bar-item">
-          <span class="label">Đã trả lời</span>
-          <span class="value" id="examAnswered">0</span>
-        </div>
-        <div class="exam-bar-item">
-          <span class="label">⏱ Thời gian còn</span>
-          <span class="value" id="examTimer">45:00</span>
-        </div>
-      </div>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="examProgress" style="width:2%"></div>
-      </div>
-      <div class="q-overview" id="examDots"></div>
-      <div id="examQCard"></div>
-      <div class="exam-nav">
-        <button class="btn-nav" id="btnPrev" onclick="examNav(-1)">← Câu Trước</button>
-        <button class="btn-nav" id="btnNext" onclick="examNav(1)">Câu Tiếp →</button>
-        <button class="btn-submit-exam" id="btnSubmit" onclick="confirmSubmit()">📤 Nộp Bài (<span id="answeredCount">0</span>/50)</button>
-      </div>
-    </div>
-
-    <!-- Result -->
-    <div id="examResult" style="display:none;"></div>
-    <!-- Review -->
-    <div id="examReview" style="display:none;"></div>
-
+    <button class="btn-export-header" onclick="openExportModal()">📤 Xuất dữ liệu</button>
   </div>
 </div>
 
-<button class="back-to-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div class="container">
+
+  <!-- STAT CARDS -->
+  <div class="stats-grid">
+    <div class="stat-card primary-card">
+      <div class="stat-label">💰 Tổng quỹ</div>
+      <div class="stat-value" id="totalFund">0</div>
+      <div class="stat-unit">nghìn đồng</div>
+    </div>
+    <div class="stat-card danger-card">
+      <div class="stat-label">📤 Đã chi</div>
+      <div class="stat-value" id="totalSpent">0</div>
+      <div class="stat-unit">nghìn đồng</div>
+    </div>
+    <div class="stat-card success-card">
+      <div class="stat-label">🏦 Còn lại</div>
+      <div class="stat-value" id="totalRemaining">0</div>
+      <div class="stat-unit">nghìn đồng</div>
+    </div>
+  </div>
+
+  <!-- FUND CARD -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:#fff0eb;">💵</span>
+      Quản lý quỹ
+      <span class="lock-badge">🔒 Bảo mật</span>
+    </div>
+
+    <!-- TIỀN GỐC -->
+    <div style="margin-bottom:18px;">
+      <div class="unlock-row">
+        <span style="font-size:0.82rem;color:var(--muted);font-weight:600;">Tiền gốc ban đầu</span>
+        <button class="btn-unlock" id="btnUnlockInit" onclick="requestUnlockSection('init')">🔓 Mở khoá để nhập</button>
+        <button class="btn-lock" id="btnLockInit" onclick="lockSection('init')" style="display:none;">🔒 Khoá lại</button>
+      </div>
+      <div class="fund-grid">
+        <div class="field" style="grid-column:span 2">
+          <label>Tiền gốc ban đầu (nghìn đồng)</label>
+          <div class="input-suffix">
+            <input type="number" id="initialFund" placeholder="Ví dụ: 5000 = 5.000.000 đ" min="0" class="locked" readonly oninput="showInitHint()" />
+            <span class="suffix">K đ</span>
+          </div>
+          <div class="amount-hint" id="initHint"></div>
+        </div>
+        <button class="btn btn-primary btn-update" onclick="requestSetInitial()" id="btnSetInitial">
+          ✓ Đặt tiền gốc
+        </button>
+      </div>
+      <p class="note">* Nhập số, đơn vị = 1.000 đ. Ví dụ: 500 = 500.000 đ | 2000 = 2.000.000 đ. Cần mật khẩu để thay đổi.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- THÊM TIỀN — Collapsible -->
+    <div>
+      <div class="collapsible-header" onclick="toggleAddFundSection()">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-weight:600; font-size:0.88rem; color:var(--text);">➕ Thêm tiền vào quỹ</span>
+          <button class="btn-unlock" id="btnUnlockAdd" onclick="event.stopPropagation();requestUnlockSection('add')" style="font-size:0.72rem;padding:3px 10px;">🔓 Mở khoá</button>
+          <button class="btn-lock" id="btnLockAdd" onclick="event.stopPropagation();lockSection('add')" style="display:none;font-size:0.72rem;padding:3px 10px;">🔒 Khoá</button>
+        </div>
+        <span class="collapse-toggle">
+          <span id="addFundCollapseLabel">Thu gọn</span>
+          <span class="collapse-arrow open" id="addFundArrow">▲</span>
+        </span>
+      </div>
+
+      <div class="collapsible-body" id="addFundBody">
+        <div style="padding-top:10px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end;">
+            <div class="field">
+              <label>Số tiền thêm (K đ)</label>
+              <div class="input-suffix">
+                <input type="number" id="addFund" placeholder="Số tiền" min="0" class="locked" readonly oninput="showAddHint()" />
+                <span class="suffix">K đ</span>
+              </div>
+              <div class="amount-hint" id="addHint"></div>
+            </div>
+            <div class="field">
+              <label>Ghi chú</label>
+              <input type="text" id="addFundNote" placeholder="VD: Lương tháng 5" class="locked" readonly />
+            </div>
+            <button class="btn btn-primary btn-update" onclick="requestAddFund()">+ Thêm</button>
+          </div>
+          <p class="note">* Cần mở khoá (nhập mật khẩu) trước khi điền thông tin thêm tiền.</p>
+        </div>
+
+        <!-- LỊCH SỬ THÊM TIỀN -->
+        <div class="add-entries-list" id="addEntriesList"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXPENSE TABLE CARD -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:#f0f8ff;">📋</span>
+      Chi tiết chi tiêu
+      <span class="lock-badge">🔒 Bảo mật</span>
+      <button class="btn btn-secondary" style="margin-left:auto; font-size:0.75rem; padding:5px 12px;" onclick="toggleAllWeeks()">
+        <span id="weekToggleLabel">⇅ Thu/Mở tuần</span>
+      </button>
+    </div>
+
+    <!-- Table unlock bar -->
+    <div class="table-unlock-bar" id="tableUnlockBar">
+      🔒 Ô <strong>số tiền</strong> đang bị khoá. Mở khoá để chỉnh sửa tiền đã chi.
+      <button class="btn-unlock" style="margin-left:auto;" onclick="requestUnlockSection('table')">🔓 Mở khoá</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th class="col-date">Ngày</th>
+            <th class="col-content">Nội dung</th>
+            <th class="col-amount" style="text-align:right">Số tiền (K đ)</th>
+            <th class="col-remaining">Còn lại (K đ)</th>
+            <th class="col-action">Xóa</th>
+          </tr>
+        </thead>
+        <tbody id="expenseBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState">
+        <div class="icon">📂</div>
+        <p>Chưa có khoản chi tiêu nào.<br>Nhấn nút bên dưới để thêm!</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+    <button class="btn btn-add" onclick="requestAddRow()">＋ Thêm dòng chi tiêu</button>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="pwModal">
+  <div class="modal">
+    <h3>🔐 Xác thực</h3>
+    <p id="pwModalDesc">Nhập mật khẩu để thực hiện thao tác này.</p>
+    <input type="password" id="pwInput" placeholder="Mật khẩu" onkeydown="if(event.key==='Enter')confirmPassword()" />
+    <div class="err" id="pwErr">❌ Mật khẩu không đúng!</div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Hủy</button>
+      <button class="btn btn-primary" onclick="confirmPassword()">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal">
+  <div class="modal" style="width:min(420px,92vw)">
+    <h3>📤 Xuất dữ liệu</h3>
+    <p>Chọn định dạng để xuất toàn bộ dữ liệu chi tiêu:</p>
+    <div class="export-options">
+      <button class="export-opt-btn" onclick="exportCSV()">
+        <span class="opt-icon">📊</span>
+        <span>
+          Xuất file CSV
+          <span class="opt-desc">Mở được bằng Excel, Google Sheets…</span>
+        </span>
+      </button>
+      <button class="export-opt-btn" onclick="exportJSON()">
+        <span class="opt-icon">🗂️</span>
+        <span>
+          Xuất file JSON
+          <span class="opt-desc">Dữ liệu thô, dễ nhập lại hoặc sao lưu</span>
+        </span>
+      </button>
+      <button class="export-opt-btn" onclick="exportTXT()">
+        <span class="opt-icon">📄</span>
+        <span>
+          Xuất file TXT (bảng văn bản)
+          <span class="opt-desc">Đọc được trên mọi ứng dụng văn bản</span>
+        </span>
+      </button>
+    </div>
+    <div class="modal-actions" style="margin-top:10px;">
+      <button class="btn btn-secondary" onclick="closeExportModal()">Đóng</button>
+    </div>
+  </div>
+</div>
 
 <script>
-/* ═══════════════════════════════════════════
-   QUESTION BANK – 75 questions
-═══════════════════════════════════════════ */
-const BANK = [
-  {q:"Đồng chí cho biết phương châm Đại hội Đại biểu toàn quốc lần thứ XIV của Đảng?",opts:["Đoàn Kết – Đổi mới – Kỷ cương – Đột phá – Phát triển","Đoàn Kết – Đổi mới – Kỷ cương – Sáng tạo – Phát triển","Đoàn Kết – Dân chủ – Kỷ cương – Đột phá – Phát triển","Đoàn Kết – Dân chủ – Kỷ cương – Sáng tạo – Phát triển"],ans:2},
-  {q:"Đồng chí cho biết chủ đề Đại hội Đại biểu toàn quốc lần thứ XIV của Đảng?",opts:["\"Dưới lá cờ vẻ vang của Đảng, chung sức, đồng lòng quyết tâm thực hiện thắng lợi các mục tiêu phát triển đất nước đến năm 2030; tự tin, tiến mạnh trong kỷ nguyên vươn mình của dân tộc, vì hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên chủ nghĩa xã hội\".","\"Dưới lá cờ vẻ vang của Đảng, chung sức, đồng lòng thực hiện thắng lợi các mục tiêu phát triển đất nước đến năm 2030; tự cường, tự chủ chiến lược, tự cường, tự tin, tiến mạnh trong kỷ nguyên vươn mình của dân tộc, vì hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên chủ nghĩa xã hội\".","\"Dưới lá cờ vẻ vang của Đảng, chung sức, đồng lòng quyết tâm thực hiện thắng lợi các mục tiêu phát triển đất nước đến năm 2045; tự cường, tự tin, tiến mạnh trong kỷ nguyên vươn mình của dân tộc, vì hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên chủ nghĩa xã hội\".","\"Dưới lá cờ vẻ vang của Đảng, chung sức, đồng lòng quyết tâm thực hiện thắng lợi các mục tiêu phát triển đất nước đến năm 2045; tự tin, tiến mạnh trong kỷ nguyên vươn mình của dân tộc, vì hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên chủ nghĩa xã hội\"."],ans:1},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định sau 40 năm đổi mới, yếu tố nào của đất nước được nâng lên rõ nét?",opts:["Quy mô dân số","Cơ đồ, tiềm lực, vị thế và uy tín quốc tế","Tiềm lực kinh tế","Khoa học công nghệ"],ans:1},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định nguy cơ bao trùm lớn nhất là gì?",opts:["Suy giảm văn hoá","Tụt hậu, nhất là về công nghệ và bẫy thu nhập trung bình","Gia tăng dân số nhanh","Thiếu lao động phổ thông"],ans:1},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định giai đoạn hiện nay được xác định là gì?",opts:["Giai đoạn ổn định","Giai đoạn phát triển","Bước ngoặt, vận hội mới mang tính lịch sử","Thời kỳ bức phát bước ngoặt"],ans:2},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định mối quan hệ trung tâm – then chốt – nền tảng – trọng yếu là gì?",opts:["Kinh tế – văn hoá – xã hội – môi trường","Phát triển kinh tế – xây dựng Đảng – văn hoá, con người – quốc phòng, an ninh, đối ngoại","Công nghiệp – nông nghiệp – dịch vụ – đô thị","Nhà nước – thị trường – xã hội – doanh nghiệp"],ans:1},
-  {q:"Báo cáo tổng kết một số vấn đề lý luận và thực tiễn về công cuộc đổi mới theo định hướng xã hội chủ nghĩa trong 40 năm qua ở Việt Nam xác định quan điểm về nền kinh tế chủ đạo như thế nào?",opts:["Kinh tế tư nhân giữ vai trò chủ đạo trong việc bảo đảm các cân đối lớn, định hướng chiến lược, dẫn dắt nền kinh tế.","Kinh tế nhà nước giữ vai trò chủ đạo trong việc bảo đảm các cân đối lớn, định hướng chiến lược, dẫn dắt nền kinh tế.","Kinh tế tập thể giữ vai trò chủ đạo trong việc bảo đảm các cân đối lớn, định hướng chiến lược, dẫn dắt nền kinh tế.","Kinh tế có vốn đầu tư nước ngoài giữ vai trò chủ đạo trong việc bảo đảm các cân đối lớn, định hướng chiến lược, dẫn dắt nền kinh tế."],ans:1},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định động lực chính của mô hình tăng trưởng mới là gì?",opts:["Lao động trẻ","Kinh tế nhà nước","Khoa học công nghệ, đổi mới sáng tạo, chuyển đổi số","Tài nguyên và khoáng sản"],ans:2},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định động lực quan trọng nhất của nền kinh tế là gì?",opts:["Kinh tế tập thể","Kinh tế có vốn đầu tư nước ngoài","Kinh tế tư nhân","Kinh tế hộ gia đình"],ans:2},
-  {q:"Báo cáo tổng kết một số vấn đề lý luận và thực tiễn về công cuộc đổi mới theo định hướng xã hội chủ nghĩa trong 40 năm qua ở Việt Nam xác định định hướng mục tiêu chung như thế nào?",opts:["Phấn đấu đến năm 2030 Việt Nam là nước đang phát triển, có công nghiệp hiện đại, thu nhập trung bình cao; đời sống của Nhân dân được nâng cao và hiện thực hoá tầm nhìn đến năm 2045 trở thành nước phát triển, thu nhập cao, vì một nước Việt Nam hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên CNXH.","Phấn đấu đến năm 2030 Việt Nam là nước đang phát triển, có công nghiệp hiện đại, thu nhập trung bình cao; tầm nhìn đến năm 2045 trở thành nước phát triển, thu nhập cao, vì một nước Việt Nam hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên CNXH.","Phấn đấu đến năm 2030 Việt Nam là nước đang phát triển, có công nghiệp hiện đại, thu nhập trung bình cao; đời sống của Nhân dân được nâng cao và hiện thực hoá tầm nhìn đến năm 2045 trở thành nước phát triển, thu nhập trung bình cao, vì một nước Việt Nam hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên CNXH.","Phấn đấu đến năm 2030 Việt Nam là nước phát triển, có công nghiệp hiện đại, thu nhập trung bình cao; tầm nhìn đến năm 2045 trở thành nước phát triển, thu nhập cao, vì một nước Việt Nam hoà bình, độc lập, dân chủ, giàu mạnh, phồn vinh, văn minh, hạnh phúc, vững bước đi lên CNXH."],ans:0},
-  {q:"Báo cáo tổng kết 15 năm thi hành Điều lệ Đảng (2011–2025) và đề xuất, định hướng bổ sung, sửa đổi Điều lệ Đảng xác định một trong những nguyên tắc bổ sung, sửa đổi Điều lệ Đảng như thế nào?",opts:["Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh, xây dựng Nhà nước pháp quyền XHCN tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả.","Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh toàn diện, xây dựng Nhà nước pháp quyền tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả.","Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh toàn diện, xây dựng Nhà nước pháp quyền XHCN tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả.","Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh toàn diện, mẫu mực tiêu biểu, xây dựng Nhà nước pháp quyền XHCN tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả."],ans:2},
-  {q:"Báo cáo tổng kết một số vấn đề lý luận và thực tiễn về công cuộc đổi mới theo định hướng xã hội chủ nghĩa trong 40 năm qua ở Việt Nam xác định mục tiêu xây dựng Đảng và hệ thống chính trị như thế nào?",opts:["Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh, xây dựng Nhà nước pháp quyền XHCN tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả.","Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh toàn diện, xây dựng Nhà nước pháp quyền tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả.","Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh toàn diện, xây dựng Nhà nước pháp quyền XHCN tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả.","Xây dựng Đảng và hệ thống chính trị trong sạch, vững mạnh toàn diện, mẫu mực tiêu biểu, xây dựng Nhà nước pháp quyền XHCN tinh gọn, trong sạch, vững mạnh, hoạt động hiệu lực, hiệu quả."],ans:2},
-  {q:"Báo cáo tổng kết 15 năm thi hành Điều lệ Đảng (2011–2025) và đề xuất, định hướng bổ sung, sửa đổi Điều lệ Đảng quy định về thời hiệu kỷ luật của Đảng và của Nhà nước như thế nào?",opts:["Đối với hành vi vi phạm phải kỷ luật bằng hình thức khiển trách, thời hiệu kỷ luật đảng là 2 năm, thời hiệu xử lý kỷ luật hành chính là 5 năm; đối với vi phạm phải xử lý kỷ luật bằng hình thức cảnh cáo thì thời hiệu kỷ luật đảng là 10 năm, thời hiệu kỷ luật hành chính là 5 năm.","Đối với hành vi vi phạm phải kỷ luật bằng hình thức khiển trách, thời hiệu kỷ luật đảng là 5 năm, thời hiệu xử lý kỷ luật hành chính là 2 năm; đối với vi phạm phải xử lý kỷ luật bằng hình thức cảnh cáo thì thời hiệu kỷ luật đảng là 10 năm, thời hiệu kỷ luật hành chính là 5 năm.","Đối với hành vi vi phạm phải kỷ luật bằng hình thức khiển trách, thời hiệu kỷ luật đảng là 2 năm, thời hiệu xử lý kỷ luật hành chính là 5 năm; đối với vi phạm phải xử lý kỷ luật bằng hình thức cảnh cáo thì thời hiệu kỷ luật đảng là 5 năm, thời hiệu kỷ luật hành chính là 10 năm.","Đối với hành vi vi phạm phải kỷ luật bằng hình thức khiển trách, thời hiệu kỷ luật đảng là 5 năm, thời hiệu xử lý kỷ luật hành chính là 2 năm; đối với vi phạm phải xử lý kỷ luật bằng hình thức cảnh cáo thì thời hiệu kỷ luật đảng là 5 năm, thời hiệu kỷ luật hành chính là 10 năm."],ans:1},
-  {q:"Báo cáo tổng kết 15 năm thi hành Điều lệ Đảng (2011–2025) và đề xuất, định hướng bổ sung, sửa đổi Điều lệ Đảng xác định một trong những nguyên tắc bổ sung, sửa đổi Điều lệ Đảng như thế nào?",opts:["Điều lệ Đảng không nên quy định quá chi tiết, cụ thể. Những nội dung trong quy định thi hành Điều lệ Đảng đã rõ, phù hợp với mô hình tổng thể tổ chức bộ máy của hệ thống chính trị và thực tiễn để nghiên cứu bổ sung, sửa đổi.","Điều lệ Đảng không nên quy định quá chi tiết, cụ thể. Những nội dung trong quy định thi hành Điều lệ Đảng đã rõ, phù hợp với mô hình tổng thể tổ chức bộ máy của hệ thống chính trị và thực tiễn thì nghiên cứu bổ sung, sửa đổi.","Điều lệ Đảng nên quy định chi tiết, cụ thể. Những nội dung trong quy định thi hành Điều lệ Đảng phải rõ, phù hợp với mô hình tổng thể tổ chức bộ máy của hệ thống chính trị và thực tiễn thì nghiên cứu bổ sung, sửa đổi.","Điều lệ Đảng nên quy định chi tiết, cụ thể. Những nội dung trong quy định thi hành Điều lệ Đảng phải rõ, phù hợp với mô hình tổng thể tổ chức bộ máy của hệ thống chính trị và thực tiễn để nghiên cứu bổ sung, sửa đổi."],ans:1},
-  {q:"Trong báo cáo đánh giá 5 năm thực hiện chiến lược phát triển kinh tế xã hội 10 năm 2021–2030, xác định tốc độ tăng tổng sản phẩm trong nước (GDP) bình quân giai đoạn 2021–2025 đạt bao nhiêu %?",opts:["Khoảng 6,3%/năm","Khoảng 6,5%/năm","Khoảng 6,7%/năm","Khoảng 6,8%/năm"],ans:0},
-  {q:"Trong báo cáo đánh giá 5 năm thực hiện chiến lược phát triển kinh tế xã hội 10 năm 2021–2030, xác định tỉ lệ huy động vào ngân sách nhà nước bình quân giai đoạn 2021–2025 đạt bao nhiêu %?",opts:["Khoảng 15% GDP","Khoảng 18% GDP","Khoảng 20% GDP","Khoảng 22% GDP"],ans:1},
-  {q:"Trong báo cáo đánh giá 5 năm thực hiện chiến lược phát triển kinh tế xã hội 10 năm 2021–2030, xác định tỉ lệ bội chi ngân sách giai đoạn 2021–2025 đạt bao nhiêu %?",opts:["Khoảng 3,0–3,1% GDP","Khoảng 3,1–3,2% GDP","Khoảng 3,2–3,3% GDP","Khoảng 3,3–3,4% GDP"],ans:1},
-  {q:"Trong báo cáo tổng kết công tác xây dựng Đảng nhiệm kỳ Đại hội XIII và phương hướng, giải pháp công tác xây dựng Đảng nhiệm kỳ Đại hội XIV, quy định việc đổi thẻ đảng viên như thế nào?",opts:["Tiến hành đổi thẻ đảng viên trong toàn Đảng, đáp ứng yêu cầu phát triển công nghệ và nâng cao hiệu quả công tác quản lý đảng viên.","Tiến hành đổi thẻ đảng viên trong toàn Đảng, đáp ứng yêu cầu phát triển đội ngũ đảng viên và nâng cao hiệu quả công tác quản lý đảng viên.","Tiến hành đổi thẻ đảng viên trong toàn Đảng, đáp ứng yêu cầu phát triển chuyển đổi số và nâng cao hiệu quả công tác quản lý đảng viên.","Tiến hành đổi thẻ đảng viên trong toàn Đảng, đáp ứng yêu cầu phát triển khoa học công nghệ và nâng cao hiệu quả công tác quản lý đảng viên."],ans:3},
-  {q:"Trong báo cáo tổng kết công tác xây dựng Đảng nhiệm kỳ Đại hội XIII và phương hướng, giải pháp công tác xây dựng Đảng nhiệm kỳ Đại hội XIV, xác định phương châm tiến hành công tác phòng, chống tham nhũng, lãng phí, tiêu cực như thế nào?",opts:["Phương châm \"không ngừng nghỉ\", \"không có vùng cấm\", \"không có ngoại lệ\".","Phương châm \"không ngừng, không nghỉ\", \"không có vùng cấm\", \"không có ngoại lệ\".","Phương châm \"không ngừng nghỉ\", \"không nản\", \"không có vùng cấm\", \"không có ngoại lệ\".","Phương châm \"không ngừng, không nghỉ\", \"không nản\", \"không có vùng cấm\", \"không có ngoại lệ\"."],ans:1},
-  {q:"Trong báo cáo tổng kết công tác xây dựng Đảng nhiệm kỳ Đại hội XIII và phương hướng, giải pháp công tác xây dựng Đảng nhiệm kỳ Đại hội XIV, xác định nhiệm vụ, giải pháp xây dựng Đảng về tư tưởng như thế nào?",opts:["Công tác tư tưởng phải được tiến hành đồng bộ, tích cực, thường xuyên, sát thực tiễn.","Công tác tư tưởng phải được tiến hành đồng bộ, tích cực, thường xuyên, sâu sát thực tiễn.","Công tác tư tưởng phải được tiến hành chủ động, tích cực, thường xuyên, sát thực tiễn.","Công tác tư tưởng phải được tiến hành chủ động, tích cực, thường xuyên, sâu sát thực tiễn."],ans:2},
-  {q:"Đồng chí cho biết kết quả bầu Đại biểu Đại hội Đảng bộ Quân đội dự Đại hội đại biểu toàn quốc lần thứ XIV của Đảng?",opts:["Bầu 48 đồng chí (45 đại biểu chính thức, 3 đại biểu dự khuyết) và 15 đại biểu đương nhiên.","Bầu 48 đồng chí (45 đại biểu chính thức, 3 đại biểu dự khuyết) và 16 đại biểu đương nhiên.","Bầu 50 đồng chí (45 đại biểu chính thức, 5 đại biểu dự khuyết) và 15 đại biểu đương nhiên.","Bầu 50 đồng chí (45 đại biểu chính thức, 5 đại biểu dự khuyết) và 16 đại biểu đương nhiên."],ans:1},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định an sinh xã hội?",opts:["Đơn tầng","Đa tầng","Có điều kiện","Khu vực"],ans:1},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định văn hoá ngang tầm?",opts:["Kinh tế","Chính trị, kinh tế, xã hội","Quốc phòng","Đối ngoại"],ans:1},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định vai trò văn hoá?",opts:["Quan trọng","Động lực","Nền tảng, động lực, điều tiết","Đặc biệt"],ans:2},
-  {q:"Báo cáo chính trị của Ban Chấp hành Trung ương Đảng khoá XIII tại Đại hội đại biểu toàn quốc lần thứ XIV của Đảng xác định ngoại giao Việt Nam?",opts:["Đa phương","Toàn diện","Tiên phong, toàn diện, hiện đại","Hiện đại"],ans:2},
-  {q:"Phương châm Đại hội Đảng bộ Quân đội lần thứ XII là gì?",opts:["Đoàn kết – Đổi mới – Phát triển – Bền vững","Dân chủ – Kỷ cương – Trách nhiệm – Hiệu quả","Đoàn kết – Dân chủ – Kỷ cương – Kiên định – Đột phá – Phát triển","Kiên định – Đổi mới – Hội nhập – Phát triển"],ans:2},
-  {q:"Cuộc Cách mạng công nghiệp lần thứ tư tác động mạnh nhất đến lĩnh vực nào của hoạt động quân sự?",opts:["Tổ chức biên chế","Nghệ thuật quân sự và phương thức tác chiến","Vũ khí trang bị","Khoa học công nghệ quân sự"],ans:1},
-  {q:"Quân đội giữ vai trò gì trong xây dựng nền quốc phòng toàn dân?",opts:["Vai trò đặc biệt quan trọng","Vai trò nòng cốt","Vai trò chủ chốt","Vai trò trọng yếu"],ans:1},
-  {q:"Thế trận nào được nhấn mạnh trong xây dựng quốc phòng?",opts:["Thế trận phòng thủ","Thế trận quốc phòng công nghệ cao","Thế trận lòng dân","Thế trận tác chiến"],ans:2},
-  {q:"Lực lượng dân quân tự vệ được xây dựng theo phương châm nào?",opts:["Tinh, gọn, chuyên nghiệp","Vững mạnh, rộng khắp","Chuyên sâu, tinh nhuệ","Tập trung, cơ động"],ans:1},
-  {q:"Công tác giáo dục chính trị trong Quân đội nhằm mục tiêu gì?",opts:["Nâng cao trình độ văn hóa","Giữ vững trận địa tư tưởng của Đảng","Nâng cao trình độ nhận thức","Nâng cao lý luận chính trị"],ans:1},
-  {q:"Nghị quyết Đại hội Đảng bộ Quân đội lần thứ XII xác định công tác huấn luyện được xác định theo hướng nào?",opts:["Giảm lý thuyết, tăng thực hành","Sát thực tiễn, làm chủ vũ khí hiện đại","Tăng cường độ huấn luyện","Tập trung huấn luyện cơ bản"],ans:1},
-  {q:"Nghị quyết Đại hội Đảng bộ Quân đội lần thứ XII xác định công nghiệp quốc phòng được xây dựng theo hướng nào?",opts:["Tăng cường nhập khẩu vũ khí hiện đại","Tự chủ, tự lực, tự cường, lưỡng dụng","Làm chủ công nghệ lõi trong sản xuất vũ khí","Đi trước, đón đầu công nghệ"],ans:1},
-  {q:"Trong nhiệm kỳ 2020–2025, lực lượng dân quân tự vệ đạt tỷ lệ bao nhiêu so với dân số?",opts:["1,0%","1,41%","1,8%","2,0%"],ans:1},
-  {q:"Một trong những nhiệm vụ trọng tâm của nhiệm kỳ 2020–2025 là hoàn thành điều chỉnh tổ chức Quân đội theo hướng nào?",opts:["Tinh, gọn, mạnh","Hiện đại, tinh nhuệ","Quy mô lớn, đa dạng","Tập trung, thống nhất"],ans:0},
-  {q:"Trong 5 năm qua, số vụ việc vi phạm kỷ luật trong Quân đội đã giảm bao nhiêu phần trăm so với nhiệm kỳ trước?",opts:["Giảm 20%","Giảm 23,97%","Giảm 30,29%","Giảm 25,5%"],ans:1},
-  {q:"Trong nhiệm kỳ vừa qua, Quân đội đã tham gia bao nhiêu cuộc hội thao quân sự quốc tế và khu vực?",opts:["05 cuộc","08 cuộc","10 cuộc","12 cuộc"],ans:1},
-  {q:"Nghị quyết Đại hội Đảng bộ Quân đội lần thứ XII đã rút ra bao nhiêu bài học kinh nghiệm từ nhiệm kỳ 2020–2025?",opts:["3 bài học","4 bài học","5 bài học","6 bài học"],ans:2},
-  {q:"Một trong những bài học kinh nghiệm được Nghị quyết Đại hội Đảng bộ Quân đội lần thứ XII nêu ra là:",opts:["Tập trung phát triển kinh tế quốc phòng.","Giữ vững và tăng cường sự lãnh đạo tuyệt đối, trực tiếp về mọi mặt của Đảng.","Ưu tiên hiện đại hóa vũ khí, trang bị.","Mở rộng hợp tác quốc tế toàn diện."],ans:1},
-  {q:"Một trong những hạn chế, khuyết điểm được nêu ra trong Nghị quyết Đại hội Đảng bộ Quân đội lần thứ XII là:",opts:["Chất lượng huấn luyện có thời điểm chưa đạt yêu cầu.","Công tác thanh tra, kiểm tra, giám sát có nội dung còn hạn chế, có vụ việc phát hiện chậm.","Hợp tác quốc tế chưa thật sự sâu rộng.","Công tác tuyển quân một số địa phương chưa đạt chỉ tiêu."],ans:1},
-  {q:"Trong nhiệm kỳ 2020–2025, Quân đội đã vận động được bao nhiêu hộ gia đình không di cư tự do?",opts:["5.000 hộ","11.445 hộ","15.200 hộ","20.000 hộ"],ans:1},
-  {q:"Tỷ lệ sản phẩm vũ khí, trang bị kỹ thuật do công nghiệp quốc phòng trong nước sản xuất và trang bị cho Quân đội là bao nhiêu?",opts:["Trên 60%","Trên 70%","Trên 80%","Trên 90%"],ans:2},
-  {q:"Nghị quyết Đại hội Đảng bộ Quân đội lần thứ XII xác định công tác gì được đặc biệt chú trọng và đạt nhiều kết quả tích cực trong xây dựng Đảng bộ?",opts:["Công tác tài chính","Công tác cán bộ","Công tác hậu cần","Công tác văn hóa"],ans:1},
-  {q:"Mục tiêu tổng quát của Đại hội XII đề ra là xây dựng Quân đội như thế nào?",opts:["Quân đội nhân dân, cách mạng, chính quy, tinh nhuệ, từng bước hiện đại.","Quân đội cách mạng, chính quy, tinh nhuệ, hiện đại.","Quân đội hùng mạnh, hiện đại hàng đầu khu vực.","Quân đội chính quy, hiện đại, đa nhiệm vụ."],ans:1},
-  {q:"Trong nhiệm kỳ vừa qua Quân đội đã tham gia thi đấu bao nhiêu giải thể thao trong nước và quốc tế, giành được bao nhiêu huy chương?",opts:["673 giải thể thao trong nước và quốc tế dành 9.394 huy chương","675 giải thể thao trong nước và quốc tế dành 9.402 huy chương","678 giải thể thao trong nước và quốc tế dành 9.396 huy chương","682 giải thể thao trong nước và quốc tế dành 9.404 huy chương"],ans:0},
-  // Part 2 (35 câu)
-  {q:"Tuyên truyền miệng là gì?",opts:["Là hình thức tuyên truyền thông qua phương tiện truyền thông","Là hình thức tuyên truyền thông qua giao tiếp trực tiếp bằng lời nói giữa người nói và người nghe","Là hình thức truyền đạt thông tin gián tiếp","Là hình thức tuyên truyền qua văn bản"],ans:1},
-  {q:"Vai trò của tuyên truyền miệng là gì?",opts:["Là hình thức phụ của công tác tư tưởng","Là công cụ thứ yếu trong tuyên truyền","Là vũ khí sắc bén, công cụ hàng đầu trong tuyên truyền của Đảng","Là hoạt động mang tính hình thức"],ans:2},
-  {q:"Nguyên tắc tiến hành công tác tuyên truyền miệng gồm?",opts:["Tính Đảng, khoa học, chân thực","Tính Đảng, khoa học, quần chúng, chân thực","Tính Đảng, chiến đấu, khoa học, quần chúng, chân thực","Tính Đảng, chiến đấu, khoa học, quần chúng, chân thực, gương mẫu"],ans:2},
-  {q:"Tính chiến đấu trong tuyên truyền miệng thể hiện ở đâu?",opts:["Trình độ chuyên môn","Khả năng giao tiếp","Bản lĩnh chính trị, đấu tranh với quan điểm sai trái","Khả năng diễn đạt"],ans:2},
-  {q:"Phương châm công tác tuyên truyền miệng là gì?",opts:["Chủ động, tích cực, nhạy bén, kịp thời","Chủ động, kịp thời, hiệu quả","Chủ động, tích cực, nhạy bén, kịp thời, cụ thể, thiết thực, thường xuyên","Chủ động, tích cực, kịp thời"],ans:2},
-  {q:"Phương pháp tiến hành tuyên truyền miệng gồm?",opts:["Trực tiếp, gián tiếp","Trực tiếp, trực tuyến","Trực tiếp, trực tuyến, kết hợp","Tất cả các hình thức trên"],ans:2},
-  {q:"Hình thức tuyên truyền miệng gồm?",opts:["Hội nghị, sinh hoạt chính trị","Diễn đàn, giao lưu","Văn hóa, văn nghệ","Tất cả các hình thức trên"],ans:3},
-  {q:"Các giai đoạn của một buổi tuyên truyền miệng gồm?",opts:["Trước – trong – sau","Trước – bắt đầu – trong – kết thúc","Trước – bắt đầu – trong – kết thúc – định hướng","Trước – trong"],ans:2},
-  {q:"Báo cáo viên Quân đội có mấy nhiệm vụ?",opts:["4","5","6","7"],ans:2},
-  {q:"Một nhiệm vụ của báo cáo viên là gì?",opts:["Tổ chức huấn luyện","Biên soạn tài liệu tuyên truyền","Chỉ huy chiến đấu","Quản lý hành chính"],ans:1},
-  {q:"Nhiệm vụ quan trọng của tuyên truyền miệng là gì?",opts:["Giải trí","Nắm và định hướng dư luận","Tổ chức sinh hoạt","Quản lý tài chính"],ans:1},
-  {q:"Quyền lợi của báo cáo viên gồm?",opts:["Được cung cấp tài liệu, phương tiện","Được tập huấn, bồi dưỡng","Được hỗ trợ phục vụ công tác","Tất cả các ý trên"],ans:3},
-  {q:"Hệ thống báo cáo viên trong toàn quân gồm?",opts:["Chuyên trách","Chuyên trách, bán chuyên trách","Chuyên trách, bán chuyên trách, kiêm nhiệm","Chỉ chuyên trách"],ans:2},
-  {q:"Trước khi tuyên truyền cần chuẩn bị gì?",opts:["Nội dung","Phương tiện","Thời gian, địa điểm","Tất cả các nội dung trên"],ans:3},
-  {q:"Yêu cầu của chủ đề tuyên truyền là gì?",opts:["Đúng, trúng, mới","Cấp thiết, định hướng tư tưởng","Phù hợp người nghe","Tất cả các ý trên"],ans:3},
-  {q:"Đặc điểm đối tượng tuyên truyền là gì?",opts:["Đa dạng","Có nhu cầu thông tin","Bị tác động bởi tư tưởng","Tất cả các ý trên"],ans:3},
-  {q:"Ưu thế của tuyên truyền miệng là gì?",opts:["Giao tiếp trực tiếp","Linh hoạt","Truyền tải thông tin nội bộ","Tất cả các ý trên"],ans:3},
-  {q:"Giao tiếp trực tiếp giúp gì?",opts:["Định hướng dư luận tốt hơn","Tăng tính hấp dẫn","Giữ bí mật thông tin","Tất cả các ý trên"],ans:3},
-  {q:"Tuyên truyền là gì?",opts:["Truyền đạt thông tin","Tác động nhận thức, niềm tin","Thúc đẩy hành động","Tất cả các ý trên"],ans:3},
-  {q:"Vai trò của tuyên truyền trong công tác tư tưởng là gì?",opts:["Quan trọng","Chủ yếu","Một trong những hình thái chủ yếu","Phụ trợ"],ans:2},
-  {q:"Đại hội đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 diễn ra trong thời gian nào?",opts:["Từ ngày 20/8/2025 đến ngày 22/8/2025","Từ ngày 21/8/2025 đến ngày 23/8/2025","Từ ngày 20/8/2025 đến ngày 21/8/2025","Từ ngày 19/8/2025 đến ngày 22/8/2025"],ans:0},
-  {q:"Chủ đề của Đại hội đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 là gì?",opts:["Phát huy truyền thống Quân khu 4 anh hùng, xây dựng Đảng bộ trong sạch, vững mạnh, LLVT Quân khu tinh, gọn, mạnh; phòng thủ Quân khu vững chắc, quốc phòng toàn dân vững mạnh, góp phần thực hiện thắng lợi nhiệm vụ xây dựng và bảo vệ Tổ quốc Việt Nam xã hội chủ nghĩa","Phát huy truyền thống Quân khu 4 anh hùng, xây dựng Đảng bộ vững mạnh toàn diện, LLVT Quân khu chính quy, hiện đại; khu vực phòng thủ vững chắc, quốc phòng toàn dân phát triển, góp phần bảo vệ vững chắc Tổ quốc Việt Nam xã hội chủ nghĩa","Phát huy truyền thống Quân khu 4 anh hùng, xây dựng Đảng bộ trong sạch, vững mạnh, LLVT Quân khu tinh, gọn, mạnh; phòng thủ Quân khu vững chắc, quốc phòng toàn dân vững mạnh, góp phần thực hiện thắng lợi nhiệm vụ xây dựng và bảo vệ vững chắc Tổ quốc Việt Nam xã hội chủ nghĩa","Phát huy truyền thống Quân khu 4 anh hùng, xây dựng Đảng bộ trong sạch, vững mạnh, LLVT Quân khu tinh nhuệ, hiện đại; phòng thủ khu vực vững chắc, nền quốc phòng toàn dân vững mạnh, góp phần bảo vệ Tổ quốc trong tình hình mới"],ans:2},
-  {q:"Phương châm của Đại hội đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 là gì?",opts:["Đoàn kết – Kỷ cương – Dân chủ – Đổi mới – Phát triển","Đoàn kết – Dân chủ – Kỷ luật – Đổi mới – Phát triển","Đoàn kết – Dân chủ – Kỷ cương – Sáng tạo – Phát triển","Đoàn kết – Dân chủ – Kỷ cương – Đổi mới – Phát triển"],ans:3},
-  {q:"Chỉ tiêu của công tác huấn luyện được xác định trong Nghị quyết Đại hội Đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 như thế nào?",opts:["Phấn đấu 75% trở lên đơn vị đạt tiêu chuẩn huấn luyện giỏi; xây dựng nhà trường thông minh, hiện đại. 100% cán bộ được huấn luyện theo phân cấp, trong đó 80% cán bộ tiểu đoàn và tương đương, 75% cán bộ đại đội, trung đội đạt khá, giỏi (35% đạt giỏi); kết quả huấn luyện 100% đạt yêu cầu, có 80% trở lên khá, giỏi.","Phấn đấu 70% trở lên đơn vị đạt tiêu chuẩn huấn luyện giỏi; xây dựng nhà trường hiện đại theo tiêu chí Quân đội tinh, gọn, mạnh. 100% cán bộ được huấn luyện theo phân cấp, trong đó 85% cán bộ tiểu đoàn, 80% cán bộ đại đội đạt khá, giỏi (40% đạt giỏi); kết quả huấn luyện 100% đạt yêu cầu, có 85% khá, giỏi.","Phấn đấu 70% trở lên đơn vị đạt tiêu chuẩn huấn luyện giỏi; xây dựng nhà trường thông minh, hiện đại theo tiêu chí xây dựng Quân đội hiện đại. 100% cán bộ huấn luyện được theo phân cấp, trong đó có 85% cán bộ tiểu đoàn và tương đương, 80% cán bộ đại đội, trung đội và tương đương đạt khá, giỏi (40% trở lên đạt giỏi); kết quả huấn luyện 100% đạt yêu cầu, có 85% trở lên khá, giỏi.","Phấn đấu 70% trở lên đơn vị đạt tiêu chuẩn huấn luyện giỏi; xây dựng nhà trường thông minh, hiện đại theo tiêu chí xây dựng Quân đội hiện đại. 100% cán bộ huấn luyện theo phân cấp, trong đó 85% cán bộ tiểu đoàn và tương đương, 80% cán bộ đại đội, trung đội và tương đương đạt khá, giỏi (40% trở lên đạt giỏi); kết quả huấn luyện 100% đạt yêu cầu, có 85% trở lên khá, giỏi."],ans:3},
-  {q:"Chỉ tiêu về tỷ lệ trang bị xe tăng, xe thiết giáp thế hệ mới được xác định trong Nghị quyết Đại hội đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 đạt từ bao nhiêu phần trăm trở lên?",opts:["35%","40%","45%","50%"],ans:1},
-  {q:"Chỉ tiêu về tỷ lệ trang bị vũ khí phòng không lục quân thế hệ mới được xác định trong Nghị quyết Đại hội đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 đạt từ bao nhiêu phần trăm trở lên?",opts:["45%","55%","60%","50%"],ans:3},
-  {q:"Đột phá thứ nhất được xác định trong Nghị quyết Đại hội Đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 là gì?",opts:["Xây dựng LLVT Quân khu chính quy, hiện đại; xây dựng cơ quan quân sự địa phương các cấp vững mạnh, đáp ứng yêu cầu, nhiệm vụ tình hình mới.","Xây dựng LLVT Quân khu tinh, gọn, mạnh; xây dựng cơ quan quân sự địa phương các cấp vững mạnh, đáp ứng yêu cầu, nhiệm vụ tình hình mới.","Xây dựng LLVT Quân khu tinh nhuệ, hiện đại; xây dựng cơ quan quân sự địa phương các cấp vững mạnh, đáp ứng yêu cầu, nhiệm vụ tình hình mới.","Xây dựng LLVT Quân khu vững mạnh toàn diện; xây dựng cơ quan quân sự địa phương các cấp vững mạnh, đáp ứng yêu cầu, nhiệm vụ tình hình mới."],ans:1},
-  {q:"Đột phá thứ hai trong Nghị quyết Đại hội đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 là gì?",opts:["Nâng cao chất lượng huấn luyện, giáo dục và đào tạo; xây dựng chính quy, quản lý kỷ luật; phát huy giá trị văn hóa \"Bộ đội Cụ Hồ\" trên quê hương Bác.","Chất lượng huấn luyện, giáo dục và đào tạo; xây dựng chính quy, quản lý kỷ luật; phát huy phẩm chất \"Bộ đội Cụ Hồ\" trên quê hương Bác.","Chất lượng huấn luyện, giáo dục và đào tạo; xây dựng chính quy, quản lý kỷ luật; phát huy giá trị văn hóa \"Bộ đội Cụ Hồ\" trong thời kỳ mới.","Chất lượng huấn luyện, giáo dục và đào tạo; xây dựng chính quy, quản lý kỷ luật; phát huy giá trị văn hóa \"Bộ đội Cụ Hồ\" trên quê hương Bác."],ans:3},
-  {q:"Đột phá thứ ba trong Nghị quyết Đại hội đại biểu Đảng bộ Quân khu IV lần thứ XII, nhiệm kỳ 2025–2030 là gì?",opts:["Đẩy mạnh chuyển đổi số và ứng dụng công nghệ thông tin.","Đẩy mạnh chuyển đổi số và ứng dụng khoa học kỹ thuật.","Đẩy mạnh chuyển đổi số và ứng dụng khoa học công nghệ.","Đẩy mạnh hiện đại hóa và ứng dụng khoa học công nghệ."],ans:2},
-  {q:"Kết quả bầu Ban Chấp hành Đảng bộ nhiệm kỳ 2025–2030 và Đoàn đại biểu của Đảng bộ đi dự Đại hội Đại biểu Đảng bộ Quân đội lần thứ XII cụ thể như thế nào?",opts:["Ban Chấp hành Đảng bộ nhiệm kỳ 2025–2030 gồm 19 đồng chí; Đoàn đại biểu của Đảng bộ đi dự Đại hội đại biểu Đảng bộ Quân đội lần thứ XII gồm 13 đại biểu chính thức và 01 đại biểu dự khuyết.","Ban Chấp hành Đảng bộ nhiệm kỳ 2025–2030 gồm 17 đồng chí; Đoàn đại biểu gồm 13 đại biểu chính thức và 01 đại biểu dự khuyết.","Ban Chấp hành Đảng bộ nhiệm kỳ 2025–2030 gồm 19 đồng chí; Đoàn đại biểu gồm 12 đại biểu chính thức và 01 đại biểu dự khuyết.","Ban Chấp hành Đảng bộ nhiệm kỳ 2025–2030 gồm 19 đồng chí; Đoàn đại biểu gồm 13 đại biểu chính thức và 02 đại biểu dự khuyết."],ans:0}
-];
+/* =====================================================
+ *  CONFIG
+ * ===================================================== */
+const PASSWORD = '123';
 
-/* ═══════════════════════════════════════════
-   CONSTANTS & STATE
-═══════════════════════════════════════════ */
-const LABELS=['A','B','C','D'];
-const ALL_PHRASES = ["Tất cả các ý trên","Tất cả các nội dung trên","Tất cả các hình thức trên"];
-const PART1_COUNT = 40;
-const PART2_COUNT = 35;
+/* =====================================================
+ *  STATE
+ * ===================================================== */
+let state = {
+  initialFund: 0,
+  totalFund: 0,
+  addEntries: [],   // [{id, date, note, amount}]
+  rows: []          // [{id, date, content, amount}]
+};
 
-let practiceData=[];
-let examData=[];
-let examAnswers={};
-let examCurrentIdx=0;
-let examTimer=null;
-let examSecondsLeft=45*60;
-let examSubmitted=false;
-let currentPart=1;
+// Section unlock states (session only, not persisted)
+let sectionUnlocked = {
+  init: false,   // tiền gốc
+  add: false,    // thêm tiền
+  table: false   // ô số tiền trong bảng
+};
 
-/* ═══════════════════════════════════════════
-   SHUFFLE HELPERS
-═══════════════════════════════════════════ */
-function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
+/* =====================================================
+ *  STORAGE
+ * ===================================================== */
+function save() {
+  localStorage.setItem('chiTieu_v2', JSON.stringify(state));
+}
+function load() {
+  const raw = localStorage.getItem('chiTieu_v2');
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      state = { addEntries: [], ...parsed };
+    } catch(e) {}
   }
-  return a;
 }
 
-function shuffleQuestion(q){
-  let fixedIdx=-1;
-  q.opts.forEach((o,i)=>{
-    if(ALL_PHRASES.some(p=>o.includes(p))) fixedIdx=i;
-  });
-  let newOpts, newAns;
-  if(fixedIdx!==-1){
-    const fixedText=q.opts[fixedIdx];
-    let others=q.opts.map((t,i)=>({t,i})).filter((_,i)=>i!==fixedIdx);
-    others=shuffle(others);
-    newOpts=[...others.map(o=>o.t),fixedText];
-    newAns=(q.ans===fixedIdx)?3:others.findIndex(o=>o.i===q.ans);
+/* =====================================================
+ *  FORMAT HELPERS — đơn vị K đ (nghìn đồng)
+ * ===================================================== */
+function fmt(n) {
+  if (isNaN(n) || n === null || n === undefined) return '—';
+  return Number(n).toLocaleString('vi-VN') + ' K';
+}
+function fmtFull(n) {
+  if (!n || isNaN(n)) return '';
+  return '≈ ' + (n * 1000).toLocaleString('vi-VN') + ' đ';
+}
+function today() {
+  return new Date().toISOString().slice(0, 10);
+}
+function currentMonth() {
+  const d = new Date();
+  return `Tháng ${d.getMonth() + 1} · ${d.getFullYear()}`;
+}
+
+function getWeekNumber(dateStr) {
+  const d = new Date(dateStr);
+  if (isNaN(d)) return 0;
+  const startOfYear = new Date(d.getFullYear(), 0, 1);
+  const diff = d - startOfYear + (startOfYear.getTimezoneOffset() - d.getTimezoneOffset()) * 60000;
+  return Math.floor(diff / (7 * 24 * 3600 * 1000)) + 1;
+}
+
+function getWeekLabel(dateStr) {
+  if (!dateStr) return 'Chưa có ngày';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return 'Không rõ';
+  const weekNum = getWeekNumber(dateStr);
+  const day = d.getDay();
+  const diffMon = (day === 0) ? -6 : 1 - day;
+  const mon = new Date(d); mon.setDate(d.getDate() + diffMon);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  const fmt2 = dt => `${String(dt.getDate()).padStart(2,'0')}/${String(dt.getMonth()+1).padStart(2,'0')}`;
+  return `Tuần ${weekNum}  ·  ${fmt2(mon)} – ${fmt2(sun)}`;
+}
+
+/* =====================================================
+ *  TOAST
+ * ===================================================== */
+let toastTimer;
+function showToast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = 'toast'; }, 2800);
+}
+
+/* =====================================================
+ *  AMOUNT HINT
+ * ===================================================== */
+function showInitHint() {
+  const v = parseFloat(document.getElementById('initialFund').value);
+  document.getElementById('initHint').textContent = v > 0 ? fmtFull(v) : '';
+}
+function showAddHint() {
+  const v = parseFloat(document.getElementById('addFund').value);
+  document.getElementById('addHint').textContent = v > 0 ? fmtFull(v) : '';
+}
+
+/* =====================================================
+ *  PASSWORD MODAL
+ * ===================================================== */
+let _pendingAction = null;
+
+function askPassword(desc, callback) {
+  _pendingAction = callback;
+  document.getElementById('pwModalDesc').textContent = desc;
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwErr').classList.remove('show');
+  document.getElementById('pwModal').classList.add('open');
+  setTimeout(() => document.getElementById('pwInput').focus(), 150);
+}
+
+function confirmPassword() {
+  const val = document.getElementById('pwInput').value;
+  if (val === PASSWORD) {
+    closeModal();
+    if (_pendingAction) _pendingAction();
+    _pendingAction = null;
   } else {
-    let paired=q.opts.map((t,i)=>({t,i}));
-    paired=shuffle(paired);
-    newOpts=paired.map(o=>o.t);
-    newAns=paired.findIndex(o=>o.i===q.ans);
-  }
-  return {...q, opts:newOpts, ans:newAns};
-}
-
-/* ═══════════════════════════════════════════
-   TABS
-═══════════════════════════════════════════ */
-function switchTab(tab){
-  document.querySelectorAll('.nav-tab').forEach((el,i)=>{
-    el.classList.toggle('active',(tab==='practice'&&i===0)||(tab==='exam'&&i===1));
-  });
-  document.getElementById('practiceSection').classList.toggle('active',tab==='practice');
-  document.getElementById('examSection').classList.toggle('active',tab==='exam');
-}
-
-/* ═══════════════════════════════════════════
-   PART SELECTOR
-═══════════════════════════════════════════ */
-function selectPart(part){
-  currentPart=part;
-  document.getElementById('partBtn1').classList.toggle('active',part===1);
-  document.getElementById('partBtn2').classList.toggle('active',part===2);
-  buildPractice(part);
-}
-
-/* ═══════════════════════════════════════════
-   PRACTICE MODE
-═══════════════════════════════════════════ */
-function buildPractice(part){
-  // Shuffle questions within each part, and shuffle answer options
-  const allData = BANK.map(shuffleQuestion);
-  const start = (part===1) ? 0 : PART1_COUNT;
-  const end   = (part===1) ? PART1_COUNT : BANK.length;
-  practiceData = shuffle(allData.slice(start, end));
-
-  const total = practiceData.length;
-  document.getElementById('practiceCount').textContent = total + ' câu';
-
-  const container=document.getElementById('practiceList');
-  container.innerHTML='';
-
-  // Global practice q index offset for display numbering
-  const offset = (part===1) ? 0 : PART1_COUNT;
-
-  practiceData.forEach((q,qi)=>{
-    const card=document.createElement('div');
-    card.className='q-card';
-    card.id='pq-'+qi;
-    card.innerHTML=`
-      <div class="advance-overlay" id="poverlay-${qi}">
-        <div class="advance-bar" id="pbar-${qi}"></div>
-      </div>
-      <div class="q-header">
-        <div class="q-number">${offset+qi+1}</div>
-        <div class="q-text">${q.q}</div>
-      </div>
-      <div class="opts-grid" id="popts-${qi}">
-        ${q.opts.map((o,oi)=>`
-          <button class="opt-btn" id="popt-${qi}-${oi}" onclick="selectPracticeOpt(${qi},${oi})">
-            <div class="opt-label">${LABELS[oi]}</div>
-            <div class="opt-text">${o}</div>
-          </button>
-        `).join('')}
-      </div>
-      <div class="answer-note" id="pnote-${qi}"></div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function selectPracticeOpt(qi,oi){
-  const q=practiceData[qi];
-  // Disable all buttons immediately
-  for(let i=0;i<4;i++){
-    const btn=document.getElementById(`popt-${qi}-${i}`);
-    if(btn) btn.disabled=true;
-  }
-  const card=document.getElementById('pq-'+qi);
-  card.classList.add('answered');
-
-  const chosenBtn=document.getElementById(`popt-${qi}-${oi}`);
-  const correctBtn=document.getElementById(`popt-${qi}-${q.ans}`);
-  const note=document.getElementById(`pnote-${qi}`);
-
-  if(oi===q.ans){
-    chosenBtn.classList.add('correct');
-    note.className='answer-note show';
-    note.innerHTML='✅ Chính xác! Đáp án đúng là <b>'+LABELS[q.ans]+'</b>.';
-  } else {
-    chosenBtn.classList.add('wrong');
-    correctBtn.classList.add('show-correct');
-    note.className='answer-note wrong-note show';
-    note.innerHTML='❌ Chưa đúng. Đáp án đúng là <b>'+LABELS[q.ans]+'</b>.';
-  }
-
-  // Trigger progress bar animation only (no auto-scroll)
-  const bar = document.getElementById('pbar-'+qi);
-  if(bar){
-    setTimeout(()=>{ bar.classList.add('go'); }, 100);
+    document.getElementById('pwErr').classList.add('show');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
   }
 }
 
-/* ═══════════════════════════════════════════
-   EXAM MODE
-═══════════════════════════════════════════ */
-function startExam(){
-  examData=shuffle(BANK).slice(0,50).map(shuffleQuestion);
-  examAnswers={};
-  examCurrentIdx=0;
-  examSecondsLeft=45*60;
-  examSubmitted=false;
-
-  document.getElementById('examStart').style.display='none';
-  document.getElementById('examDoing').style.display='block';
-  document.getElementById('examResult').style.display='none';
-  document.getElementById('examReview').style.display='none';
-
-  buildDots();
-  renderExamQ();
-  startTimer();
+function closeModal() {
+  document.getElementById('pwModal').classList.remove('open');
 }
 
-function buildDots(){
-  const wrap=document.getElementById('examDots');
-  wrap.innerHTML='';
-  for(let i=0;i<50;i++){
-    const d=document.createElement('div');
-    d.className='q-dot'+(i===0?' current':'');
-    d.id='edot-'+i;
-    d.textContent=i+1;
-    d.onclick=(()=>{const idx=i;return()=>goToExamQ(idx);})();
-    wrap.appendChild(d);
-  }
-}
-
-function updateDots(){
-  for(let i=0;i<50;i++){
-    const d=document.getElementById('edot-'+i);
-    if(!d) continue;
-    d.className='q-dot';
-    if(i===examCurrentIdx) d.classList.add('current');
-    if(examAnswers[i]!==undefined) d.classList.add('answered');
-  }
-}
-
-function renderExamQ(){
-  const q=examData[examCurrentIdx];
-  const chosen=examAnswers[examCurrentIdx];
-  const total=50;
-
-  document.getElementById('examCurrentQ').textContent=(examCurrentIdx+1)+'/'+total;
-  document.getElementById('examAnswered').textContent=Object.keys(examAnswers).length;
-  document.getElementById('examProgress').style.width=((examCurrentIdx+1)/total*100)+'%';
-  document.getElementById('btnPrev').disabled=(examCurrentIdx===0);
-  document.getElementById('btnNext').disabled=(examCurrentIdx===49);
-  // Update answered count on submit button
-  const answeredCount=Object.keys(examAnswers).length;
-  const countEl=document.getElementById('answeredCount');
-  if(countEl) countEl.textContent=answeredCount;
-  const btnSubmit=document.getElementById('btnSubmit');
-  if(btnSubmit){
-    if(answeredCount<50){
-      btnSubmit.style.opacity='0.55';
-      btnSubmit.style.cursor='pointer';
-    } else {
-      btnSubmit.style.opacity='1';
-    }
-  }
-
-  const card=document.getElementById('examQCard');
-  card.innerHTML=`
-    <div class="q-card" style="animation:cardIn .3s cubic-bezier(.22,.68,0,1.2) both;">
-      <div class="q-header">
-        <div class="q-number">${examCurrentIdx+1}</div>
-        <div class="q-text">${q.q}</div>
-      </div>
-      <div class="opts-grid">
-        ${q.opts.map((o,oi)=>`
-          <button class="opt-btn" id="eopt-${oi}"
-            onclick="selectExamOpt(${oi})" ${examSubmitted?'disabled':''}>
-            <div class="opt-label">${LABELS[oi]}</div>
-            <div class="opt-text">${o}</div>
-          </button>
-        `).join('')}
-      </div>
-    </div>
-  `;
-
-  // Restyle if already chosen - use CSS class to avoid inline style bleed
-  if(chosen!==undefined){
-    const btn=document.getElementById('eopt-'+chosen);
-    if(btn) btn.classList.add('exam-selected');
-  }
-  updateDots();
-}
-
-function selectExamOpt(oi){
-  if(examSubmitted) return;
-  // Prevent selecting again if already answered this question
-  if(examAnswers[examCurrentIdx]!==undefined) return;
-  examAnswers[examCurrentIdx]=oi;
-  renderExamQ();
-  // Auto-advance to next question after a short delay
-  if(examCurrentIdx < 49){
-    setTimeout(()=>{
-      examCurrentIdx++;
-      renderExamQ();
-    }, 600);
-  }
-}
-
-function goToExamQ(idx){
-  examCurrentIdx=idx;
-  renderExamQ();
-}
-function examNav(dir){
-  const next=examCurrentIdx+dir;
-  if(next<0||next>49) return;
-  examCurrentIdx=next;
-  renderExamQ();
-}
-
-function startTimer(){
-  clearInterval(examTimer);
-  examTimer=setInterval(()=>{
-    examSecondsLeft--;
-    if(examSecondsLeft<=0){
-      clearInterval(examTimer);
-      submitExam();
-      return;
-    }
-    const m=Math.floor(examSecondsLeft/60);
-    const s=examSecondsLeft%60;
-    const el=document.getElementById('examTimer');
-    if(el){
-      el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
-      el.className='value'+(examSecondsLeft<=300?' danger':'');
-    }
-  },1000);
-}
-
-function confirmSubmit(){
-  const answered=Object.keys(examAnswers).length;
-  const unanswered=50-answered;
-  if(unanswered>0){
-    alert('⚠️ Bạn còn ' + unanswered + ' câu chưa trả lời!\n\nVui lòng trả lời hết tất cả 50 câu trước khi nộp bài.\n\n(Kiểm tra các ô số chưa tô xanh trên bảng câu hỏi.)');
-    return;
-  }
-  if(confirm('✅ Bạn đã trả lời đủ 50/50 câu.\n\nBạn có chắc muốn nộp bài?')) submitExam();
-}
-
-function submitExam(){
-  clearInterval(examTimer);
-  examSubmitted=true;
-
-  let correct=0, wrong=0, skip=0;
-  for(let i=0;i<50;i++){
-    const chosen=examAnswers[i];
-    if(chosen===undefined){ skip++; }
-    else if(chosen===examData[i].ans){ correct++; }
-    else{ wrong++; }
-  }
-
-  const pct=correct/50;
-  const deg=Math.round(pct*360);
-
-  let emoji, title, msg;
-  if(correct>=45){
-    emoji='🏆';title='XUẤT SẮC!';
-    msg='Chúc mừng đồng chí! Kết quả xuất sắc, xứng danh Báo cáo viên Giỏi cấp Quân khu!';
-  } else if(correct>=40){
-    emoji='🎖️';title='GIỎI!';
-    msg='Đồng chí đạt kết quả tốt. Hãy tiếp tục ôn luyện để đạt thành tích cao hơn!';
-  } else if(correct>=35){
-    emoji='✅';title='KHÁ!';
-    msg='Kết quả khá tốt. Cần ôn luyện thêm một số phần để vững vàng hơn!';
-  } else if(correct>=25){
-    emoji='📚';title='TRUNG BÌNH';
-    msg='Đồng chí cần tập trung ôn luyện thêm. Hãy xem lại phần ôn luyện và làm bài thêm nhiều lần!';
-  } else {
-    emoji='💪';title='CẦN CỐ GẮNG THÊM';
-    msg='Hãy tiếp tục học tập và rèn luyện. Sử dụng mục Ôn Luyện để nắm vững kiến thức!';
-  }
-
-  document.getElementById('examDoing').style.display='none';
-  const resultDiv=document.getElementById('examResult');
-  resultDiv.style.display='block';
-  resultDiv.innerHTML=`
-    <div class="result-screen">
-      <div style="font-size:14px;color:var(--text-muted);margin-bottom:18px;letter-spacing:1px;font-weight:600;text-transform:uppercase;">
-        Cảm ơn đồng chí đã hoàn thành bài thi
-      </div>
-      <div class="result-score-ring" style="--pct:${deg}deg;">
-        <div class="result-score-inner">
-          <div class="result-score-num">${correct}</div>
-          <div class="result-score-denom">/ 50</div>
-        </div>
-      </div>
-      <div style="font-size:48px;margin-bottom:12px;">${emoji}</div>
-      <div class="result-title">${title}</div>
-      <div class="result-msg">${msg}</div>
-      <div class="result-badges">
-        <div class="result-badge badge-correct">✅ Đúng: ${correct}</div>
-        <div class="result-badge badge-wrong">❌ Sai: ${wrong}</div>
-        <div class="result-badge badge-skip">⬜ Bỏ qua: ${skip}</div>
-      </div>
-      <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:10px;">
-        <button class="btn-review" onclick="showReview()">🔍 Xem Bài Làm</button>
-        <button class="btn-retry" onclick="retryExam()">🔁 Thi Lại</button>
-      </div>
-    </div>
-  `;
-}
-
-function showReview(){
-  document.getElementById('examResult').style.display='none';
-  const rv=document.getElementById('examReview');
-  rv.style.display='block';
-
-  let html=`
-    <div class="review-header">
-      <div class="review-title">📋 XEM LẠI BÀI THI</div>
-      <button class="btn-back-result" onclick="backToResult()">← Về Kết Quả</button>
-    </div>
-  `;
-
-  for(let i=0;i<50;i++){
-    const q=examData[i];
-    const chosen=examAnswers[i];
-    let status, tagClass, tagText;
-    if(chosen===undefined){
-      status='is-skip'; tagClass='tag-skip'; tagText='⬜ BỎ QUA';
-    } else if(chosen===q.ans){
-      status='is-correct'; tagClass='tag-correct'; tagText='✅ ĐÚNG';
-    } else {
-      status='is-wrong'; tagClass='tag-wrong'; tagText='❌ SAI';
-    }
-
-    html+=`
-      <div class="review-q-card ${status}">
-        <span class="review-result-tag ${tagClass}">${tagText}</span>
-        <div class="q-header" style="margin-bottom:14px;">
-          <div class="q-number" style="flex-shrink:0;">${i+1}</div>
-          <div class="q-text" style="margin-bottom:0;">${q.q}</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          ${q.opts.map((o,oi)=>{
-            let style='';
-            if(oi===q.ans) style='border-color:#16A34A;background:rgba(22,163,74,.07);color:#14532D;';
-            else if(oi===chosen&&chosen!==q.ans) style='border-color:#DC2626;background:rgba(220,38,38,.07);color:#7F1D1D;';
-            else style='opacity:.5;';
-            return `<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:8px;border:1.5px solid var(--border);${style}font-size:14px;">
-              <span style="flex-shrink:0;font-weight:800;width:20px;color:var(--gold);">${LABELS[oi]}.</span>
-              <span>${o}</span>
-            </div>`;
-          }).join('')}
-        </div>
-        ${chosen!==undefined&&chosen!==q.ans?`<div style="margin-top:10px;font-size:14px;color:#14532D;font-weight:600;">→ Đáp án đúng: <b>${LABELS[q.ans]}</b></div>`:''}
-      </div>
-    `;
-  }
-  rv.innerHTML=html;
-  rv.scrollIntoView({behavior:'smooth'});
-}
-
-function backToResult(){
-  document.getElementById('examReview').style.display='none';
-  document.getElementById('examResult').style.display='block';
-  document.getElementById('examResult').scrollIntoView({behavior:'smooth'});
-}
-
-function retryExam(){
-  document.getElementById('examResult').style.display='none';
-  document.getElementById('examReview').style.display='none';
-  document.getElementById('examStart').style.display='block';
-}
-
-/* ═══════════ BACK TO TOP ═══════════ */
-window.addEventListener('scroll',()=>{
-  document.getElementById('backTop').classList.toggle('show',window.scrollY>300);
+document.getElementById('pwModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
 });
 
-/* ═══════════ INIT ═══════════ */
-buildPractice(1);
+/* =====================================================
+ *  SECTION UNLOCK / LOCK
+ * ===================================================== */
+function requestUnlockSection(section) {
+  const labels = {
+    init: 'Nhập mật khẩu để mở khoá ô tiền gốc ban đầu.',
+    add: 'Nhập mật khẩu để mở khoá phần thêm tiền vào quỹ.',
+    table: 'Nhập mật khẩu để mở khoá chỉnh sửa số tiền đã chi.'
+  };
+  askPassword(labels[section] || 'Nhập mật khẩu.', () => doUnlockSection(section));
+}
+
+function doUnlockSection(section) {
+  sectionUnlocked[section] = true;
+  applyLockUI(section);
+  showToast('🔓 Đã mở khoá!', 'success');
+}
+
+function lockSection(section) {
+  sectionUnlocked[section] = false;
+  applyLockUI(section);
+  showToast('🔒 Đã khoá lại.', '');
+}
+
+function applyLockUI(section) {
+  if (section === 'init') {
+    const inp = document.getElementById('initialFund');
+    const btnUnlock = document.getElementById('btnUnlockInit');
+    const btnLock = document.getElementById('btnLockInit');
+    if (sectionUnlocked.init) {
+      inp.classList.remove('locked'); inp.removeAttribute('readonly');
+      btnUnlock.style.display = 'none'; btnLock.style.display = '';
+    } else {
+      inp.classList.add('locked'); inp.setAttribute('readonly', '');
+      inp.value = ''; document.getElementById('initHint').textContent = '';
+      btnUnlock.style.display = ''; btnLock.style.display = 'none';
+    }
+  }
+
+  if (section === 'add') {
+    const inpAmt = document.getElementById('addFund');
+    const inpNote = document.getElementById('addFundNote');
+    const btnUnlock = document.getElementById('btnUnlockAdd');
+    const btnLock = document.getElementById('btnLockAdd');
+    if (sectionUnlocked.add) {
+      inpAmt.classList.remove('locked'); inpAmt.removeAttribute('readonly');
+      inpNote.classList.remove('locked'); inpNote.removeAttribute('readonly');
+      btnUnlock.style.display = 'none'; btnLock.style.display = '';
+    } else {
+      inpAmt.classList.add('locked'); inpAmt.setAttribute('readonly', '');
+      inpNote.classList.add('locked'); inpNote.setAttribute('readonly', '');
+      inpAmt.value = ''; inpNote.value = '';
+      document.getElementById('addHint').textContent = '';
+      btnUnlock.style.display = ''; btnLock.style.display = 'none';
+    }
+  }
+
+  if (section === 'table') {
+    const bar = document.getElementById('tableUnlockBar');
+    if (sectionUnlocked.table) {
+      bar.classList.add('unlocked-bar');
+      bar.innerHTML = '✅ Ô <strong>số tiền</strong> đã mở khoá. Bạn có thể chỉnh sửa tiền đã chi. <button class="btn-lock" style="margin-left:auto;" onclick="lockSection(\'table\')">🔒 Khoá lại</button>';
+    } else {
+      bar.classList.remove('unlocked-bar');
+      bar.innerHTML = '🔒 Ô <strong>số tiền</strong> đang bị khoá. Mở khoá để chỉnh sửa tiền đã chi. <button class="btn-unlock" style="margin-left:auto;" onclick="requestUnlockSection(\'table\')">🔓 Mở khoá</button>';
+    }
+    // Re-apply locked state to all amount inputs
+    document.querySelectorAll('td input[data-field="amount"]').forEach(inp => {
+      if (sectionUnlocked.table) {
+        inp.classList.remove('cell-locked');
+        inp.removeAttribute('readonly');
+      } else {
+        inp.classList.add('cell-locked');
+        inp.setAttribute('readonly', '');
+      }
+    });
+  }
+}
+
+/* =====================================================
+ *  COLLAPSIBLE — Thêm tiền vào quỹ
+ * ===================================================== */
+let addFundOpen = true;
+
+function toggleAddFundSection() {
+  addFundOpen = !addFundOpen;
+  const body = document.getElementById('addFundBody');
+  const arrow = document.getElementById('addFundArrow');
+  const label = document.getElementById('addFundCollapseLabel');
+  if (addFundOpen) {
+    body.classList.remove('collapsed');
+    arrow.classList.add('open');
+    arrow.textContent = '▲';
+    label.textContent = 'Thu gọn';
+  } else {
+    body.classList.add('collapsed');
+    arrow.classList.remove('open');
+    arrow.textContent = '▼';
+    label.textContent = 'Mở rộng';
+  }
+}
+
+/* =====================================================
+ *  EXPORT MODAL
+ * ===================================================== */
+function openExportModal() {
+  document.getElementById('exportModal').classList.add('open');
+}
+function closeExportModal() {
+  document.getElementById('exportModal').classList.remove('open');
+}
+document.getElementById('exportModal').addEventListener('click', function(e) {
+  if (e.target === this) closeExportModal();
+});
+
+function exportCSV() {
+  const rows = [['STT','Ngày','Nội dung','Số tiền (K đ)','Còn lại (K đ)']];
+  const remainingList = calcRemainingList();
+  state.rows.forEach((row, i) => {
+    rows.push([
+      i + 1,
+      row.date || '',
+      '"' + (row.content || '').replace(/"/g, '""') + '"',
+      row.amount || 0,
+      isNaN(remainingList[i]) ? '' : remainingList[i]
+    ]);
+  });
+  // Add fund summary
+  rows.push([]);
+  rows.push(['=== THÔNG TIN QUỸ ===']);
+  rows.push(['Tiền gốc', state.initialFund]);
+  rows.push(['Tổng quỹ', state.totalFund]);
+  rows.push(['Tổng đã chi', calcTotalSpent()]);
+  rows.push(['Còn lại', state.totalFund - calcTotalSpent()]);
+  if (state.addEntries && state.addEntries.length) {
+    rows.push([]);
+    rows.push(['=== LỊCH SỬ THÊM TIỀN ===']);
+    rows.push(['Ngày','Ghi chú','Số tiền (K đ)']);
+    state.addEntries.forEach(e => rows.push([e.date, '"' + (e.note || '').replace(/"/g,'""') + '"', e.amount]));
+  }
+  const csv = '\uFEFF' + rows.map(r => r.join(',')).join('\n');
+  downloadFile(csv, `chi-tieu-${today()}.csv`, 'text/csv;charset=utf-8;');
+  closeExportModal();
+  showToast('✅ Đã xuất file CSV!', 'success');
+}
+
+function exportJSON() {
+  const data = {
+    exportedAt: new Date().toISOString(),
+    fund: {
+      initialFund: state.initialFund,
+      totalFund: state.totalFund,
+      totalSpent: calcTotalSpent(),
+      remaining: state.totalFund - calcTotalSpent()
+    },
+    addEntries: state.addEntries,
+    rows: state.rows
+  };
+  downloadFile(JSON.stringify(data, null, 2), `chi-tieu-${today()}.json`, 'application/json');
+  closeExportModal();
+  showToast('✅ Đã xuất file JSON!', 'success');
+}
+
+function exportTXT() {
+  const line = (s) => s + '\n';
+  const sep = '─'.repeat(60) + '\n';
+  let txt = '';
+  txt += '╔══════════════════════════════════════════════════════════╗\n';
+  txt += '║         BÁO CÁO CHI TIÊU CÁ NHÂN                       ║\n';
+  txt += `║  Xuất lúc: ${new Date().toLocaleString('vi-VN')}${' '.repeat(Math.max(0,28-new Date().toLocaleString('vi-VN').length))}║\n`;
+  txt += '╚══════════════════════════════════════════════════════════╝\n\n';
+  txt += '[ THỐNG KÊ QUỸ ]\n' + sep;
+  txt += `  Tiền gốc     : ${fmt(state.initialFund)} (${fmtFull(state.initialFund)})\n`;
+  txt += `  Tổng quỹ     : ${fmt(state.totalFund)} (${fmtFull(state.totalFund)})\n`;
+  txt += `  Tổng đã chi  : ${fmt(calcTotalSpent())} (${fmtFull(calcTotalSpent())})\n`;
+  txt += `  Còn lại      : ${fmt(state.totalFund - calcTotalSpent())} (${fmtFull(state.totalFund - calcTotalSpent())})\n\n`;
+  if (state.addEntries && state.addEntries.length) {
+    txt += '[ LỊCH SỬ THÊM TIỀN ]\n' + sep;
+    state.addEntries.forEach(e => {
+      txt += `  ${e.date}  ${(e.note||'').padEnd(20)}  +${fmt(e.amount)}\n`;
+    });
+    txt += '\n';
+  }
+  txt += '[ CHI TIẾT CHI TIÊU ]\n' + sep;
+  txt += `${'STT'.padEnd(4)}  ${'Ngày'.padEnd(11)}  ${'Nội dung'.padEnd(24)}  ${'Số tiền'.padStart(12)}  ${'Còn lại'.padStart(14)}\n`;
+  txt += sep;
+  const remainingList = calcRemainingList();
+  state.rows.forEach((row, i) => {
+    txt += `${String(i+1).padEnd(4)}  ${(row.date||'').padEnd(11)}  ${(row.content||'').substring(0,24).padEnd(24)}  ${fmt(row.amount).padStart(12)}  ${fmt(remainingList[i]).padStart(14)}\n`;
+  });
+  txt += sep;
+  downloadFile('\uFEFF' + txt, `chi-tieu-${today()}.txt`, 'text/plain;charset=utf-8;');
+  closeExportModal();
+  showToast('✅ Đã xuất file TXT!', 'success');
+}
+
+function downloadFile(content, filename, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* =====================================================
+ *  FUND MANAGEMENT
+ * ===================================================== */
+function requestSetInitial() {
+  if (!sectionUnlocked.init) {
+    showToast('⚠️ Vui lòng mở khoá ô tiền gốc trước!', 'warning'); return;
+  }
+  const v = parseFloat(document.getElementById('initialFund').value);
+  if (!v || v <= 0) { showToast('⚠️ Vui lòng nhập số tiền gốc!', 'warning'); return; }
+  if (state.initialFund > 0) {
+    askPassword('Nhập mật khẩu để thay đổi tiền gốc ban đầu.', () => doSetInitial(v));
+  } else {
+    doSetInitial(v);
+  }
+}
+
+function doSetInitial(v) {
+  const oldAdd = state.totalFund - state.initialFund;
+  state.initialFund = v;
+  state.totalFund = v + oldAdd;
+  document.getElementById('initialFund').value = '';
+  document.getElementById('initHint').textContent = '';
+  lockSection('init');
+  save(); render();
+  showToast(`✓ Đã đặt tiền gốc: ${fmt(v)}`, 'success');
+}
+
+function requestAddFund() {
+  if (!sectionUnlocked.add) {
+    showToast('⚠️ Vui lòng mở khoá phần thêm tiền trước!', 'warning'); return;
+  }
+  const v = parseFloat(document.getElementById('addFund').value);
+  if (!v || v <= 0) { showToast('⚠️ Nhập số tiền cần thêm!', 'warning'); return; }
+  askPassword('Nhập mật khẩu để thêm tiền vào quỹ.', () => doAddFund(v));
+}
+
+function doAddFund(v) {
+  const note = document.getElementById('addFundNote').value.trim() || 'Thêm tiền';
+  state.totalFund += v;
+  state.addEntries.push({ id: Date.now(), date: today(), note, amount: v });
+  document.getElementById('addFund').value = '';
+  document.getElementById('addFundNote').value = '';
+  document.getElementById('addHint').textContent = '';
+  lockSection('add');
+  save(); render();
+  showToast(`✓ Thêm ${fmt(v)} (${fmtFull(v)}) vào quỹ!`, 'success');
+}
+
+function requestDeleteAddEntry(id) {
+  askPassword('Nhập mật khẩu để xóa lần thêm tiền này.', () => {
+    const entry = state.addEntries.find(e => e.id === id);
+    if (entry) state.totalFund -= entry.amount;
+    state.addEntries = state.addEntries.filter(e => e.id !== id);
+    save(); render();
+    showToast('🗑️ Đã xóa lần thêm tiền.', '');
+  });
+}
+
+/* =====================================================
+ *  ROW OPERATIONS
+ * ===================================================== */
+let rowIdCounter = Date.now();
+
+function requestAddRow() {
+  askPassword('Nhập mật khẩu để thêm dòng chi tiêu.', doAddRow);
+}
+
+function doAddRow() {
+  state.rows.push({ id: ++rowIdCounter, date: today(), content: '', amount: 0 });
+  save(); render();
+  setTimeout(() => {
+    const inputs = document.querySelectorAll('tbody tr.week-data:last-child td input[data-field="content"]');
+    if (inputs.length) inputs[inputs.length - 1].focus();
+    else {
+      const all = document.querySelectorAll('td input[data-field="content"]');
+      if (all.length) all[all.length - 1].focus();
+    }
+  }, 80);
+}
+
+function requestDeleteRow(id) {
+  askPassword('Nhập mật khẩu để xóa dòng chi tiêu này.', () => {
+    state.rows = state.rows.filter(r => r.id !== id);
+    save(); render();
+    showToast('🗑️ Đã xóa dòng chi tiêu.', '');
+  });
+}
+
+function updateRow(id, field, value) {
+  // Ô số tiền yêu cầu mở khoá
+  if (field === 'amount' && !sectionUnlocked.table) {
+    showToast('🔒 Mở khoá bảng chi tiêu để chỉnh sửa số tiền!', 'warning');
+    // Revert the input to original value
+    const row = state.rows.find(r => r.id === id);
+    if (row) {
+      const inp = document.querySelector(`td input[data-id="${id}"][data-field="amount"]`);
+      if (inp) inp.value = row.amount || '';
+    }
+    return;
+  }
+  const row = state.rows.find(r => r.id === id);
+  if (!row) return;
+  if (field === 'amount') {
+    row[field] = parseFloat(value) || 0;
+  } else {
+    row[field] = value;
+  }
+  save();
+  recalcAndUpdateTotals();
+}
+
+function onContentKey(e, id) {
+  if (e.key === 'Enter' || e.key === 'Tab') {
+    e.preventDefault();
+    const tr = e.target.closest('tr');
+    if (tr) {
+      const amtInput = tr.querySelector('input[data-field="amount"]');
+      if (amtInput) amtInput.focus();
+    }
+  }
+}
+
+/* =====================================================
+ *  WEEK COLLAPSE
+ * ===================================================== */
+let weekCollapsed = {};
+let allCollapsed = false;
+
+function toggleWeek(weekKey) {
+  weekCollapsed[weekKey] = !weekCollapsed[weekKey];
+  const header = document.querySelector(`tr.week-header[data-week="${weekKey}"]`);
+  const rows = document.querySelectorAll(`tr.week-data[data-week="${weekKey}"]`);
+  if (weekCollapsed[weekKey]) {
+    header && header.classList.add('collapsed');
+    rows.forEach(r => r.classList.add('hidden'));
+  } else {
+    header && header.classList.remove('collapsed');
+    rows.forEach(r => r.classList.remove('hidden'));
+  }
+}
+
+function toggleAllWeeks() {
+  allCollapsed = !allCollapsed;
+  const keys = [...new Set(state.rows.map(r => getWeekKey(r.date)))];
+  keys.forEach(k => { weekCollapsed[k] = allCollapsed; });
+  render();
+}
+
+function getWeekKey(dateStr) {
+  if (!dateStr) return 'nodate';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return 'nodate';
+  return `${d.getFullYear()}-W${String(getWeekNumber(dateStr)).padStart(2,'0')}`;
+}
+
+/* =====================================================
+ *  CALCULATIONS
+ * ===================================================== */
+function calcRemainingList() {
+  let bal = state.totalFund;
+  return state.rows.map(row => {
+    bal -= (row.amount || 0);
+    return bal;
+  });
+}
+function calcTotalSpent() {
+  return state.rows.reduce((sum, r) => sum + (r.amount || 0), 0);
+}
+
+/* =====================================================
+ *  RENDER
+ * ===================================================== */
+function render() {
+  document.getElementById('monthBadge').textContent = currentMonth();
+
+  const totalSpent = calcTotalSpent();
+  const totalRemaining = state.totalFund - totalSpent;
+  document.getElementById('totalFund').textContent      = fmt(state.totalFund);
+  document.getElementById('totalSpent').textContent     = fmt(totalSpent);
+  document.getElementById('totalRemaining').textContent = fmt(totalRemaining);
+
+  renderAddEntries();
+
+  const tbody = document.getElementById('expenseBody');
+  const empty = document.getElementById('emptyState');
+
+  if (state.rows.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const remainingList = calcRemainingList();
+
+  const groups = [];
+  let currentWeekKey = null;
+  state.rows.forEach((row, i) => {
+    const wk = getWeekKey(row.date);
+    if (wk !== currentWeekKey) {
+      currentWeekKey = wk;
+      groups.push({ weekKey: wk, weekLabel: getWeekLabel(row.date), rows: [] });
+    }
+    groups[groups.length - 1].rows.push({ row, i });
+  });
+
+  let html = '';
+  let stt = 1;
+  const amtLocked = !sectionUnlocked.table;
+
+  groups.forEach(group => {
+    const collapsed = !!weekCollapsed[group.weekKey];
+    const weekSpent = group.rows.reduce((s, {row}) => s + (row.amount || 0), 0);
+    html += `<tr class="week-header${collapsed ? ' collapsed' : ''}" data-week="${escHtml(group.weekKey)}" onclick="toggleWeek('${escHtml(group.weekKey)}')">
+      <td colspan="6">
+        📅 ${escHtml(group.weekLabel)}
+        <span style="margin-left:12px; opacity:0.7; font-size:0.7rem;">Chi: ${fmt(weekSpent)}</span>
+        <span class="week-toggle">▼</span>
+      </td>
+    </tr>`;
+
+    group.rows.forEach(({ row, i }) => {
+      const rem = remainingList[i];
+      const isNeg = rem < 0;
+      const rowClass = isNeg ? 'negative' : 'positive';
+      const remDisplay = isNaN(rem) ? '—' : fmt(rem);
+      const remFull = isNaN(rem) ? '' : fmtFull(rem);
+      const amtFull = row.amount > 0 ? fmtFull(row.amount) : '';
+      const lockedCls = amtLocked ? ' cell-locked' : '';
+      const lockedAttr = amtLocked ? ' readonly' : '';
+
+      html += `<tr class="week-data ${rowClass}${collapsed ? ' hidden' : ''}" data-week="${escHtml(group.weekKey)}" data-id="${row.id}">
+        <td class="stt">${stt++}</td>
+        <td class="col-date">
+          <input type="date" value="${row.date || ''}"
+            data-id="${row.id}" data-field="date"
+            onchange="updateRow(${row.id},'date',this.value)" />
+        </td>
+        <td class="col-content">
+          <input type="text" value="${escHtml(row.content || '')}" placeholder="Nhập nội dung..."
+            data-id="${row.id}" data-field="content"
+            oninput="updateRow(${row.id},'content',this.value)"
+            onkeydown="onContentKey(event,${row.id})" />
+        </td>
+        <td class="col-amount">
+          <input type="number" value="${row.amount || ''}" placeholder="0" min="0"
+            data-id="${row.id}" data-field="amount"
+            oninput="updateRow(${row.id},'amount',this.value)"
+            style="text-align:right"
+            class="${lockedCls.trim()}"
+            ${lockedAttr}
+            title="${amtFull}" />
+          ${amtFull ? `<div style="font-size:0.65rem;color:var(--muted);text-align:right;padding:0 6px">${amtFull}</div>` : ''}
+        </td>
+        <td class="col-remaining" style="color:${isNeg ? 'var(--danger)' : 'var(--success)'}" title="${remFull}">
+          ${remDisplay}
+          ${remFull ? `<div style="font-size:0.65rem;opacity:0.7">${remFull}</div>` : ''}
+        </td>
+        <td class="col-action">
+          <button class="btn-delete" onclick="requestDeleteRow(${row.id})" title="Xóa dòng">✕</button>
+        </td>
+      </tr>`;
+    });
+  });
+
+  tbody.innerHTML = html;
+}
+
+function renderAddEntries() {
+  const el = document.getElementById('addEntriesList');
+  if (!state.addEntries || state.addEntries.length === 0) {
+    el.innerHTML = '';
+    return;
+  }
+  el.innerHTML = `<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;margin-top:10px;">Lịch sử thêm tiền</div>` +
+    state.addEntries.map(e => `
+      <div class="add-entry-item">
+        <span class="add-entry-date">📅 ${e.date}</span>
+        <span class="add-entry-note">${escHtml(e.note || '')}</span>
+        <span class="add-entry-amt">+${fmt(e.amount)} <span style="font-size:0.7rem;font-weight:400;color:var(--muted)">(${fmtFull(e.amount)})</span></span>
+        <button class="add-entry-del" onclick="requestDeleteAddEntry(${e.id})" title="Xóa">✕</button>
+      </div>
+    `).join('');
+}
+
+function recalcAndUpdateTotals() {
+  const totalSpent = calcTotalSpent();
+  const totalRemaining = state.totalFund - totalSpent;
+  document.getElementById('totalFund').textContent      = fmt(state.totalFund);
+  document.getElementById('totalSpent').textContent     = fmt(totalSpent);
+  document.getElementById('totalRemaining').textContent = fmt(totalRemaining);
+
+  const remainingList = calcRemainingList();
+  const rows = document.querySelectorAll('tbody tr.week-data[data-id]');
+  let i = 0;
+  rows.forEach(tr => {
+    const rem = remainingList[i];
+    const isNeg = rem < 0;
+    const cls = tr.className.replace('negative','').replace('positive','').trim();
+    tr.className = cls + ' ' + (isNeg ? 'negative' : 'positive');
+    const remCell = tr.querySelector('.col-remaining');
+    if (remCell) {
+      const remFull = isNaN(rem) ? '' : fmtFull(rem);
+      remCell.innerHTML = (isNaN(rem) ? '—' : fmt(rem)) + (remFull ? `<div style="font-size:0.65rem;opacity:0.7">${remFull}</div>` : '');
+      remCell.style.color = isNeg ? 'var(--danger)' : 'var(--success)';
+    }
+    const amtInput = tr.querySelector('input[data-field="amount"]');
+    if (amtInput) {
+      const amtVal = parseFloat(amtInput.value) || 0;
+      const hintDiv = amtInput.nextElementSibling;
+      if (hintDiv && hintDiv.tagName === 'DIV') {
+        hintDiv.textContent = amtVal > 0 ? fmtFull(amtVal) : '';
+      }
+    }
+    i++;
+  });
+}
+
+/* =====================================================
+ *  UTILITY
+ * ===================================================== */
+function escHtml(str) {
+  if (typeof str !== 'string') return String(str || '');
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* =====================================================
+ *  INIT
+ * ===================================================== */
+load();
+render();
 </script>
 </body>
 </html>
